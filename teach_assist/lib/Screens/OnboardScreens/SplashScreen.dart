@@ -5,6 +5,7 @@ import '../../Transitions/LeftToRight.dart';
 import '../../Utils/ThemeData/colors.dart';
 import '../../main.dart';
 import '../AuthScreens/LoginScreen.dart';
+import 'OnboardScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ));
 
-      Navigator.pushReplacement(context, LeftToRight(LoginScreen()));
+      Navigator.pushReplacement(context, LeftToRight(OnboardingScreen()));
     });
   }
 
