@@ -1,6 +1,8 @@
+import 'package:teach_assist/API/FireStoreAPIs/teacherServices.dart';
 import 'package:teach_assist/API/FirebaseAPIs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:teach_assist/API/FirebaseAuthentication/pwd.dart';
+import 'package:teach_assist/Models/Teacher.dart';
 // import 'package:mailer/mailer.dart';
 // import 'package:mailer/smtp_server.dart';
 // import 'package:otp/otp.dart';
@@ -64,14 +66,25 @@ class AppFirebaseAuth {
   //   return _otp == verifyOTP;
   // }
 
-  static Future<String> signUp(String emailAddress, String password) async {
+  static Future<String> signUp(String emailAddress, String password, Teacher teacher) async {
     try {
       print("#Fauth: $emailAddress, $password");
-      final credential = FirebaseAPIs.auth.createUserWithEmailAndPassword(
+      final credential = await FirebaseAPIs.auth.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
 
+
+      // Get the user ID (UID) from the credential
+      final String uid = credential.user?.uid ?? '';
+
+      // Now assign this UID as the ID for the teacher object
+      teacher.id = uid;
+
+      // After creating the user, you can store the teacher details in Firestore
+      await TeacherService().addTeacher(teacher);
+
+      print('User signed up with UID: $uid');
 
       return "Registered";
 
@@ -95,24 +108,36 @@ class AppFirebaseAuth {
     }
   }
 
-  static Future<String> signIn (String emailAddress, String password) async {
+  static Future<dynamic> signIn(String emailAddress, String password) async {
     try {
-      final credential = await FirebaseAPIs.auth.signInWithEmailAndPassword(
-          email: emailAddress,
-          password: password
+      final UserCredential credential = await FirebaseAPIs.auth.signInWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
       );
 
-      return "Logged In";
+      // Get the user ID (UID) from the credential
+      final String uid = credential.user?.uid ?? '';
+
+      // Fetch the teacher document from Firestore using the UID
+      TeacherService teacherService = TeacherService();
+      Teacher? teacher = await teacherService.getTeacherById(uid);
+
+      if (teacher != null) {
+        print('Logged in successfully as: ${teacher.name}');
+        return teacher; // Return the Teacher object
+      } else {
+        return 'Teacher not found in the database.';
+      }
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') return 'No user found for that email.';
       else if (e.code == 'too-many-requests') return 'Server busy. Please try again later.';
-      // else if (e.code == 'internal-error') return 'Something want wrong. Please try again later.';
       else if (e.code == 'invalid-credential') return 'Wrong username or password';
-
       else {
-        return 'Something want wrong. Please try again.';
+        return 'Something went wrong. Please try again.';
       }
+    } catch (e) {
+      return 'An error occurred: $e';
     }
   }
 

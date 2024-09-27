@@ -8,7 +8,8 @@
 class Quiz {
   Quiz({
       this.courseCode, 
-      this.id, 
+      this.id,
+      this.studentId,
       this.startDateTime, 
       this.endDateTime, 
       this.totalMarks, 
@@ -17,6 +18,7 @@ class Quiz {
   Quiz.fromJson(dynamic json) {
     courseCode = json['courseCode'];
     id = json['id'];
+    studentId = json["studentId"]
     startDateTime = json['startDateTime'];
     endDateTime = json['endDateTime'];
     totalMarks = json['totalMarks'];
@@ -24,6 +26,7 @@ class Quiz {
   }
   String? courseCode;
   String? id;
+  String? studentId;
   num? startDateTime;
   num? endDateTime;
   num? totalMarks;
@@ -37,6 +40,7 @@ class Quiz {
     map['endDateTime'] = endDateTime;
     map['totalMarks'] = totalMarks;
     map['marksObtained'] = marksObtained;
+    map['studentId'] = studentId;
     return map;
   }
 
