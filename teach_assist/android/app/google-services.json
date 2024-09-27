@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "498534609041",
+    "project_id": "tic-tech-toe-2024",
+    "storage_bucket": "tic-tech-toe-2024.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498534609041:android:67d24ead0946771d17cf30",
+        "android_client_info": {
+          "package_name": "com.example.teach_assist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZTEeclrwbwm8GPR3Ez22zvPIj1_qNW_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
