@@ -18,7 +18,7 @@ class Quiz {
   Quiz.fromJson(dynamic json) {
     courseCode = json['courseCode'];
     id = json['id'];
-    studentId = json["studentId"]
+    studentId = json["studentId"];
     startDateTime = json['startDateTime'];
     endDateTime = json['endDateTime'];
     totalMarks = json['totalMarks'];

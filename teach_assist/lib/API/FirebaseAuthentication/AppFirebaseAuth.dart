@@ -1,8 +1,10 @@
-import 'package:teach_assist/API/FireStoreAPIs/teacherServices.dart';
-import 'package:teach_assist/API/FirebaseAPIs.dart';
+import '../FireStoreAPIs/studentServices.dart';
+import '../FireStoreAPIs/teacherServices.dart';
+import '../FirebaseAPIs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:teach_assist/API/FirebaseAuthentication/pwd.dart';
-import 'package:teach_assist/Models/Teacher.dart';
+import 'pwd.dart';
+import '../../Models/Student.dart';
+import '../../Models/Teacher.dart';
 // import 'package:mailer/mailer.dart';
 // import 'package:mailer/smtp_server.dart';
 // import 'package:otp/otp.dart';
@@ -66,8 +68,16 @@ class AppFirebaseAuth {
   //   return _otp == verifyOTP;
   // }
 
-  static Future<String> signUp(String emailAddress, String password, Teacher teacher) async {
+  static Future<String> signUp(String emailAddress, String password, Teacher? teacher, Student? student, bool isStudent) async {
     try {
+      if(isStudent && student == null){
+        return "Student details require";
+      }
+      else if (!isStudent && teacher == null){
+        return "Teacher detail require";
+      }
+
+
       print("#Fauth: $emailAddress, $password");
       final credential = await FirebaseAPIs.auth.createUserWithEmailAndPassword(
         email: emailAddress,
@@ -77,13 +87,16 @@ class AppFirebaseAuth {
 
       // Get the user ID (UID) from the credential
       final String uid = credential.user?.uid ?? '';
-
-      // Now assign this UID as the ID for the teacher object
-      teacher.id = uid;
-
-      // After creating the user, you can store the teacher details in Firestore
-      await TeacherService().addTeacher(teacher);
-
+      if(isStudent){
+        student!.id = uid;
+        await StudentService().addStudent(student);
+      }
+      else{
+        // Now assign this UID as the ID for the teacher object
+        teacher!.id = uid;
+        // After creating the user, you can store the teacher details in Firestore
+        await TeacherService().addTeacher(teacher);
+      }
       print('User signed up with UID: $uid');
 
       return "Registered";
@@ -108,7 +121,7 @@ class AppFirebaseAuth {
     }
   }
 
-  static Future<dynamic> signIn(String emailAddress, String password) async {
+  static Future<dynamic> signIn(String emailAddress, String password, bool isStudent) async {
     try {
       final UserCredential credential = await FirebaseAPIs.auth.signInWithEmailAndPassword(
         email: emailAddress,
@@ -118,15 +131,30 @@ class AppFirebaseAuth {
       // Get the user ID (UID) from the credential
       final String uid = credential.user?.uid ?? '';
 
-      // Fetch the teacher document from Firestore using the UID
-      TeacherService teacherService = TeacherService();
-      Teacher? teacher = await teacherService.getTeacherById(uid);
+      if(isStudent){
+        StudentService studentService = StudentService();
+        Student? student = await studentService.getStudentById(uid);
+        if(student != null){
+          print('Logged in successfully as: ${student.name}');
+          return student;
+        }
+        else{
+          return 'Student not found in the database.';
+        }
+      }
 
-      if (teacher != null) {
-        print('Logged in successfully as: ${teacher.name}');
-        return teacher; // Return the Teacher object
-      } else {
-        return 'Teacher not found in the database.';
+      else{
+        // Fetch the teacher document from Firestore using the UID
+        TeacherService teacherService = TeacherService();
+        Teacher? teacher = await teacherService.getTeacherById(uid);
+
+        if (teacher != null) {
+          print('Logged in successfully as: ${teacher.name}');
+          return teacher; // Return the Teacher object
+        } else {
+          return 'Teacher not found in the database.';
+        }
+
       }
 
     } on FirebaseAuthException catch (e) {
@@ -150,6 +178,7 @@ class AppFirebaseAuth {
 }
 
 //
-// main(){
-//   FirebaseAuth.sendOTP("22bce209@nirmauni.ac.in");
-// }
+main() {
+    AppFirebaseAuth.signUp("teach1@abc.com", "12345678", Teacher(name: "t1", departmentId: "d1", subjects: ["daa"]), null, false);
+    AppFirebaseAuth.signUp("stud1@abc.com", "12345678", null, Student(name: "s1", departmentId: "d1", allocatedSubjects: [AllocatedSubjects(courseCode: "daa")]), false);
+}

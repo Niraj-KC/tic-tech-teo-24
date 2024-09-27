@@ -1,10 +1,30 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:teach_assist/Models/Student.dart';
+import 'package:teach_assist/Models/Teacher.dart';
 
-void main() {
+import 'API/FirebaseAuthentication/AppFirebaseAuth.dart';
+import 'firebase_options.dart';
+
+void main()  async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+
+  // AppFirebaseAuth.signUp("teach1@abc.com", "12345678", Teacher(name: "t1", departmentId: "d1", subjects: ["daa"]), null, false);
+  // AppFirebaseAuth.signUp("stud1@abc.com", "12345678", null, Student(name: "s1", departmentId: "d1", allocatedSubjects: [AllocatedSubjects(courseCode: "daa")]), true);
+
+  print("user created");
+
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
+
   const MyApp({super.key});
 
   // This widget is the root of your application.
