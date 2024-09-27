@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:teach_assist/API/FirebaseAuthentication/AppFirebaseAuth.dart';
+import 'package:teach_assist/Models/Student.dart';
+import 'package:teach_assist/Models/Teacher.dart';
+import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 
 import '../../Components/CustomButton.dart';
@@ -15,8 +19,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController(text: "teach1@abc.com");
+  TextEditingController _passwordController = TextEditingController(text: "12345678");
 
   // Checkbox state
   bool _isStudent = false;
@@ -94,11 +98,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   AuthButton(
                     onpressed: () async {
 
-                      // todo : take this details
+                      // Log in  details
                       print('Username: ${_usernameController.text}');
                       print('Password: ${_passwordController.text}');
                       print('Student: ${_isStudent ? "Yes" : "No"}');
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      dynamic res = await AppFirebaseAuth.signIn(_usernameController.text, _passwordController.text, _isStudent);
+                      print("#res-type ${res.runtimeType}");
+                      if(res.runtimeType == Teacher){
+                        print("Navigating to teacher home page");
+                        // todo : Navigate to teacher home page
+                      }
+                      else if(res.runtimeType == Student){
+                        print("Navigating to student home page");
+                        // todo : Navigate to student home page
+                      }
+                      else{
+                        print("Error: $res");
+                        HelperFunction.showToast(res);
+                      }
 
+                      setState(() {
+                        _isLoading = false;
+                      });
                     },
                     name: _isLoading ? 'Logging in...' : "Login",
                     bcolor: AppColors.theme['green'],
