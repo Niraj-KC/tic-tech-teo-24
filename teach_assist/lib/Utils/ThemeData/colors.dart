@@ -11,19 +11,17 @@ hexStringToColors(String hexColor){
 
 
 class  AppColors {
-  static Map<String, Color> theme = themes["lightTheme"]!;
+  static Map theme = themes["lightTheme"]!;
 
-  static Map<String, Map<String, Color>> themes = {
+  static Map themes = {
     "lightTheme": {
-      "primaryBg": hexStringToColors("#f1f4f8"),
-      "secondaryBg": hexStringToColors("#ffffff"),
-      "success": hexStringToColors("#52DE97"),
+      "offWhite": hexStringToColors("#fdfdff"),
+      "white": hexStringToColors("#ffffff"),
+      "black" : hexStringToColors("#000000"),
+      "green": hexStringToColors("#0a4527"),
       "warning": hexStringToColors("#f9cf58"),
       "error": hexStringToColors("#ff5963"),
       "disable": Colors.blueGrey.shade300
     },
-
   };
-
-
 }
