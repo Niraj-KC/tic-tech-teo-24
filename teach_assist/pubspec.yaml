@@ -38,6 +38,13 @@ dependencies:
   http: 1.2.1
   flutter_dotenv: 5.1.0
   firebase_core:
+  firebase_auth:
+  firebase_messaging:
+  cloud_firestore:
+  firebase_storage:
+  firebase_database: ^10.4.7
+  uuid: ^4.3.3
+
 
 dev_dependencies:
   flutter_test:
