@@ -6,7 +6,8 @@ import '../Utils/ThemeData/colors.dart';
 
 class CourseCard extends StatefulWidget {
   final Subject sub;
-  const CourseCard({super.key, required this.sub});
+  final bool isStudent ;
+  const CourseCard({super.key, required this.sub, required this.isStudent});
 
   @override
   State<CourseCard> createState() => _CourseCardState();
@@ -54,7 +55,7 @@ class _CourseCardState extends State<CourseCard> {
             ),
             child: InkWell(
               onTap: (){
-                Navigator.push(context, LeftToRight(CourseDetailScreen(sub: widget.sub,))) ;
+                Navigator.push(context, LeftToRight(CourseDetailScreen(sub: widget.sub, isStudent: widget.isStudent,))) ;
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

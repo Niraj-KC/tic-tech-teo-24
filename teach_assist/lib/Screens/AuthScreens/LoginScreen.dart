@@ -102,9 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     onpressed: () async {
 
                       // Log in  details
-                      print('Username: ${_usernameController.text}');
-                      print('Password: ${_passwordController.text}');
-                      print('Student: ${_isStudent ? "Yes" : "No"}');
+                      // print('Username: ${_usernameController.text}');
+                      // print('Password: ${_passwordController.text}');
+                      // print('Student: ${_isStudent ? "Yes" : "No"}');
                       setState(() {
                         _isLoading = true;
                       });
@@ -112,11 +112,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       print("#res-type ${res.runtimeType}");
                       if(res.runtimeType == Teacher){
                         print("Navigating to teacher home page");
-                        Navigator.pushReplacement(context, LeftToRight(TeacherHomeScreen())) ;
+                        HelperFunction.showToast("Successfully login");
+                        Navigator.pushReplacement(context, LeftToRight(TeacherHomeScreen(teacher: res,))) ;
                       }
                       else if(res.runtimeType == Student){
                         print("Navigating to student home page");
-                        Navigator.pushReplacement(context, LeftToRight(StudentHomeScreen())) ;
+                        HelperFunction.showToast("Successfully login");
+                        Navigator.pushReplacement(context, LeftToRight(StudentHomeScreen(student: res,))) ;
                       }
                       else{
                         print("Error: $res");
