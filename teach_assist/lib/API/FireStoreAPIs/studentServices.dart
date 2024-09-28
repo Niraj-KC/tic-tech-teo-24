@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:teach_assist/API/FirebaseAuthentication/AppFirebaseAuth.dart';
 import 'package:teach_assist/Models/Quiz.dart';
 import 'package:teach_assist/Models/Student.dart';
 import 'package:teach_assist/Models/Subject.dart';
@@ -10,14 +12,30 @@ class StudentService {
   FirebaseFirestore.instance.collection('subjects');
 
   // Create Student
-  Future<void> addStudent(Student student) async {
+  Future<bool> addStudent(Student student) async {
     try {
       await studentCollection.doc(student.id).set(student.toJson());
       print('Student added successfully!');
+      return true;
     } catch (e) {
       print('Error adding student: $e');
+      return false;
     }
   }
+
+  Future<String> signUpNewStudent(Student student) async {
+    try {
+      await AppFirebaseAuth.signUp("${student.rollNo}@abc.com", "12345678", null, student, true);
+      print('Student added successfully!');
+      return "Student added successfully!";
+    } catch (e) {
+      print('Error adding student: $e');
+      return "Something went wrong.";
+    }
+  }
+
+
+
 
   // Read Student by ID
   Future<Student?> getStudentById(String studentId) async {

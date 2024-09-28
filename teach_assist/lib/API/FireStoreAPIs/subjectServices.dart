@@ -99,7 +99,7 @@ class SubjectService {
 
   Future<void> updateCoursePolicy(String id, String url) async {
     try{
-      subjectCollection.doc(id).set({"coursePolicy": url});
+      subjectCollection.doc(id).update({"coursePolicy": url});
       print("Course policy updated successfully.");
     }
     catch (e){
@@ -109,7 +109,7 @@ class SubjectService {
 
   Future<void> updateMaterial(Subject subject) async {
     try{
-      subjectCollection.doc(subject.id).set({"materials": subject.materials});
+      subjectCollection.doc(subject.id).update({"materials": subject.materials});
       print("Course policy updated successfully.");
     }
     catch (e){

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
 import 'package:teach_assist/Components/CustomButton.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
+import 'package:teach_assist/Models/Student.dart';
+import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
 
 import '../../Utils/ThemeData/colors.dart';
 import '../../main.dart';
@@ -98,7 +101,24 @@ class _NewStudentState extends State<NewStudent> {
                     onpressed: () async {
 
                       //todo:store info into database for sign up new student
+                      setState(() {
+                        _isLoading = true;
+                      });
 
+                      Student student = Student(
+                        departmentId: _departmentController.text,
+                        name: _nameController.text,
+                        currentSem: _semController.text,
+                        rollNo: _rollNoController.text
+                      );
+
+                      final res = await StudentService().signUpNewStudent(student);
+
+                     setState(() {
+                        _isLoading = false;
+                      });
+
+                     HelperFunction.showToast(res.toString());
 
                     },
                     name: _isLoading ? "Enrolling..." : "Enroll",

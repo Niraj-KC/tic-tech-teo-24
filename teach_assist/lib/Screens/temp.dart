@@ -101,8 +101,8 @@ class _AttendanceAppState extends State<AttendanceApp> {
     distance = gl.Geolocator.distanceBetween(
       _currentPosition!.latitude,
       _currentPosition!.longitude,
-      23.1866333, // Geofence center latitude
-      72.6284817, // Geofence center longitude
+      23.022505, // Geofence center latitude
+      72.5713621, // Geofence center longitude
     );
     setState(() {});
 
@@ -147,9 +147,11 @@ class _AttendanceAppState extends State<AttendanceApp> {
       if (geofenceStatus == GeofenceStatus.ENTER) {
         print("#in");
         _onEnterGeofence();
+        _getCurrentLocation();
       } else if (geofenceStatus == GeofenceStatus.EXIT) {
         print("#out");
         _onExitGeofence();
+        _getCurrentLocation();
       }
 
     });

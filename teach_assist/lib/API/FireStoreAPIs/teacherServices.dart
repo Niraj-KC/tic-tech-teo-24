@@ -71,7 +71,7 @@ class TeacherService {
   Future<void> addSubject(Teacher teacher, String subjectId) async {
     teacher.subjects ??= [];
     teacher.subjects!.add(subjectId);
-    await teacherCollection.doc(teacher.id).set({"subjects": teacher.subjects});
+    await teacherCollection.doc(teacher.id).update({"subjects": teacher.subjects});
   }
 
   // Get Stream of Subjects for a Teacher based on AllocatedSubjects IDs

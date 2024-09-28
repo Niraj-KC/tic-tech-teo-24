@@ -86,7 +86,11 @@ class AppFirebaseAuth {
 
 
       // Get the user ID (UID) from the credential
-      final String uid = credential.user?.uid ?? '';
+      final String? uid = credential.user?.uid;
+      if(uid == null){
+        throw "Something went wrong";
+      }
+
       if(isStudent){
         student!.id = uid;
         await StudentService().addStudent(student);
@@ -129,7 +133,11 @@ class AppFirebaseAuth {
       );
 
       // Get the user ID (UID) from the credential
-      final String uid = credential.user?.uid ?? '';
+      final String? uid = credential.user?.uid;
+
+      if(uid == null){
+        return "Auth error";
+      }
 
       if(isStudent){
         StudentService studentService = StudentService();

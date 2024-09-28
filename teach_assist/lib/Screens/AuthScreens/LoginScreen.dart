@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         dynamic res = await AppFirebaseAuth.signIn(_usernameController.text, _passwordController.text, _isStudent);
                         print("#res-type ${res.runtimeType}");
                         if(res.runtimeType == Teacher){
-                          print("Navigating to teacher home page");
+                          print("Navigating to teacher home page: uid : ${res.id}");
                           userProvider.setCurrent(res, false);
                           HelperFunction.showToast("Successfully login");
                           Navigator.pushReplacement(context, LeftToRight(TeacherHomeScreen(teacher: res,)));
