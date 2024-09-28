@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:teach_assist/Screens/OnboardScreens/SplashScreen.dart';
-import 'package:teach_assist/Screens/temp.dart';
 
 import 'firebase_options.dart';
 
@@ -35,8 +34,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: SplashScreen(),
-      home: AttendanceApp(),
+      home: SplashScreen(),
     );
   }
 }

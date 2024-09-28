@@ -3,11 +3,14 @@ import 'package:teach_assist/API/FirebaseAuthentication/AppFirebaseAuth.dart';
 import 'package:teach_assist/Models/Student.dart';
 import 'package:teach_assist/Models/Teacher.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
+import 'package:teach_assist/Screens/StudentScreens/StudentHomeScreen.dart';
+import 'package:teach_assist/Transitions/LeftToRight.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 
 import '../../Components/CustomButton.dart';
 import '../../Components/CustomTextField.dart';
 import '../../main.dart';
+import '../TeacherScreens/TeacherHomeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,8 +22,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
-  TextEditingController _usernameController = TextEditingController(text: "teach1@abc.com");
-  TextEditingController _passwordController = TextEditingController(text: "12345678");
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   // Checkbox state
   bool _isStudent = false;
@@ -39,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 400, // Adjusted height to fit checkbox
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppColors.theme['green']?.withOpacity(0.04),
+                color: AppColors.theme['green'].withOpacity(0.04),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -119,6 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         print("Error: $res");
                         HelperFunction.showToast(res);
                       }
+
+                      Navigator.pushReplacement(context, LeftToRight(_isStudent ? StudentHomeScreen() : TeacherHomeScreen()));
 
                       setState(() {
                         _isLoading = false;
