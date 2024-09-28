@@ -23,8 +23,10 @@ Our project focuses on developing a **Customizable Classroom Management Tool** d
 ### 1. Attendance Tracking Using Geolocation
 - **Student Attendance:** Geolocation is used to track whether students are within the designated area during class hours. If a student remains within the geofenced area for a specified duration, they are automatically marked present; otherwise, they are marked absent.
 - **Custom Geofence:** Each class can have a different geolocation range, customized according to the teacher's requirements. This prevents proxy attendance and ensures accurate tracking.
-![img10.jpg](https://assets.leetcode.com/users/images/9e55188b-b261-4e85-aaff-99f1107db3c4_1727537066.6194813.jpeg)
-![img1.jpg](https://assets.leetcode.com/users/images/fd06be5b-ce9a-4e63-8763-414352629acd_1727536352.180298.jpeg)
+<div style="display: flex; justify-content: space-between;">
+    <img src="https://assets.leetcode.com/users/images/9e55188b-b261-4e85-aaff-99f1107db3c4_1727537066.6194813.jpeg" alt="Geolocation Example 1" width="45%" />
+    <img src="https://assets.leetcode.com/users/images/fd06be5b-ce9a-4e63-8763-414352629acd_1727536352.180298.jpeg" alt="Geolocation Example 2" width="45%" />
+</div>
 
 ### 2. Lecture Summarizer & Self-Evaluation
 - **Automated Text Notes:** After the completion of a video lecture, the system automatically generates text notes for students to better understand the content.
