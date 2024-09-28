@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialText;
   final Icon ? prefixicon;
   final bool obsecuretext;
+  final bool? isEnable ;
   final IconButton? suffix;
   final void Function(String?)? onSaved;
   final void Function(String?)? onChange;
@@ -25,7 +26,7 @@ class CustomTextField extends StatelessWidget {
     this.onSaved,
      this.prefixicon,
     required this.obsecuretext,
-    this.suffix, this.onChange,
+    this.suffix, this.onChange, this.isEnable,
   }) : super(key: key);
 
   @override
@@ -35,6 +36,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
       child: Center(
         child: TextFormField(
+          enabled:isEnable,
           cursorColor: AppColors.theme['black'],
           onSaved: onSaved,
           onChanged: onChange,

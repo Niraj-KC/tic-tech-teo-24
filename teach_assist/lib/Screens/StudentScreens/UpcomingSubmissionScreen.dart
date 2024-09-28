@@ -62,7 +62,7 @@ class _UpcomingSubmissionScreenState extends State<UpcomingSubmissionScreen> {
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(height: 20,),
                   SubmissionCard(sb: sb1,),
                   SubmissionCard(sb: sb2,),
                   SubmissionCard(sb: sb3,),

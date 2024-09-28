@@ -3,6 +3,8 @@ import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
 import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Models/Subject.dart';
+import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
+import 'package:teach_assist/Transitions/RightToLeft.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
 
 import '../../Components/EnrolledStudentCard.dart';
@@ -19,20 +21,27 @@ class EnrolledStudents extends StatefulWidget {
 }
 
 class _EnrolledStudentsState extends State<EnrolledStudents> {
-  Student st = Student(id: "12", name: "Hitesh Mori", rollNo: "22BCE197", currentSem: "4", departmentId: "CSE", allocatedSubjects: []);
+  Student st = Student(
+      id: "12",
+      name: "Hitesh Mori",
+      rollNo: "22BCE197",
+      currentSem: "4",
+      departmentId: "CSE",
+      allocatedSubjects: []);
 
   List<Student> _selectedStudents = [];
   bool _isLoading = false;
 
   void _addStudent(Student student) {
     // setState(() {
-      _selectedStudents.add(student);
+    _selectedStudents.add(student);
     // });
   }
 
   void _removeStudent(Student student) {
     // setState(() {
-      _selectedStudents.removeWhere((studentInList) => student.id == studentInList.id);
+    _selectedStudents
+        .removeWhere((studentInList) => student.id == studentInList.id);
     // });
   }
 
@@ -41,6 +50,24 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          leading: InkWell(
+            onTap: (){
+              Navigator.pushReplacement(context, RightToLeft(TeacherHomeScreen()));
+            },
+              child: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+            size: 28,
+          )),
+          centerTitle: true,
+          backgroundColor: AppColors.theme['green'],
+          title: Text(
+            "All Students",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.theme['green'],
           onPressed: () async {
@@ -48,7 +75,8 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
             setState(() {
               _isLoading = true;
             });
-            final res = await SubjectService().enrollStudents(widget.subject, _selectedStudents);
+            final res = await SubjectService()
+                .enrollStudents(widget.subject, _selectedStudents);
 
             // _selectedStudents.forEach((selStudent) {
             //   _students.removeWhere((stud) => stud.id == selStudent.id);
@@ -97,7 +125,8 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                     FutureBuilder(
                       future: StudentService().getAllStudents(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CircularProgressIndicator();
                         }
 
@@ -111,13 +140,15 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
 
                         List<Student> students = snapshot.data!;
 
-
-
                         return Column(
                           children: students
                               .map((e) => EnrolledStudentCard(
                                     st: e,
-                                    isEnrolled: (e.allocatedSubjects?.any((element) => element.id == widget.subject.id) ?? false),
+                                    isEnrolled: (e.allocatedSubjects?.any(
+                                            (element) =>
+                                                element.id ==
+                                                widget.subject.id) ??
+                                        false),
                                     addStudent: _addStudent,
                                     removeStudent: _removeStudent,
                                   ))

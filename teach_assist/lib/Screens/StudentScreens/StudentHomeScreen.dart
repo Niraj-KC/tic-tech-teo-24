@@ -299,6 +299,9 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: ListTile(
+                          onTap: (){
+                            Navigator.push(context, LeftToRight(UpcomingSubmissionScreen()));
+                          },
                           leading: Icon(Icons.upload_file_outlined),
                           title: Text(
                             "Upload Homeworks",

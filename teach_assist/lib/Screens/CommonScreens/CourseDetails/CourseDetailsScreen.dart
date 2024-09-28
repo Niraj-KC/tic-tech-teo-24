@@ -121,10 +121,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         );
       case "Home Work":
         return Container(
-          child: Text(
-            "Home Work Content",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+           // todo:fetch here all home work for perticular course
         );
       default:
         return Container();

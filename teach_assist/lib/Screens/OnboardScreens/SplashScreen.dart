@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:teach_assist/API/FirebaseAPIs.dart';
-import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
-
 import '../../Transitions/LeftToRight.dart';
 import '../../Utils/ThemeData/colors.dart';
 import '../../main.dart';
 import '../AuthScreens/LoginScreen.dart';
-import 'OnboardScreen.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,8 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
       ));
 
 
+         // todo  :check wether if user not log out then got to their resplective
+      //  home screen if not then got the login screen
 
-        Navigator.pushReplacement(context, LeftToRight(OnboardingScreen()));
+        Navigator.pushReplacement(context, LeftToRight(LoginScreen()));
 
 
 

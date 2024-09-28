@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teach_assist/Providers/CurrentUserProvider.dart';
-import 'package:teach_assist/Screens/OnboardScreens/OnboardScreen.dart';
 import 'package:teach_assist/Screens/OnboardScreens/SplashScreen.dart';
 import 'package:teach_assist/Screens/temp2.dart';
 
