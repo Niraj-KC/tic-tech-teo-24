@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:teach_assist/Screens/StudentScreens/StudentHomeScreen.dart';
+import 'package:teach_assist/Transitions/LeftToRight.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 
 import '../../Components/CustomButton.dart';
 import '../../Components/CustomTextField.dart';
 import '../../main.dart';
+import '../TeacherScreens/TeacherHomeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 400, // Adjusted height to fit checkbox
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppColors.theme['green']?.withOpacity(0.04),
+                color: AppColors.theme['green'].withOpacity(0.04),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -98,6 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       print('Username: ${_usernameController.text}');
                       print('Password: ${_passwordController.text}');
                       print('Student: ${_isStudent ? "Yes" : "No"}');
+
+                      Navigator.pushReplacement(context, LeftToRight(_isStudent ? StudentHomeScreen() : TeacherHomeScreen()));
 
                     },
                     name: _isLoading ? 'Logging in...' : "Login",

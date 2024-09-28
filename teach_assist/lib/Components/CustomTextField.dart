@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget {
   final bool isNumber;
   final FormFieldValidator<String>? validator;
   final String? initialText;
-  final Icon prefixicon;
+  final Icon ? prefixicon;
   final bool obsecuretext;
   final IconButton? suffix;
   final void Function(String?)? onSaved;
@@ -23,7 +23,7 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.initialText,
     this.onSaved,
-    required this.prefixicon,
+     this.prefixicon,
     required this.obsecuretext,
     this.suffix, this.onChange,
   }) : super(key: key);

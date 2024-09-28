@@ -15,7 +15,7 @@ class  AppColors {
 
   static Map themes = {
     "lightTheme": {
-      "offWhite": hexStringToColors("#fdfdff"),
+      "offWhite": hexStringToColors("#F8F9FA"),
       "white": hexStringToColors("#ffffff"),
       "black" : hexStringToColors("#000000"),
       "green": hexStringToColors("#0a4527"),
