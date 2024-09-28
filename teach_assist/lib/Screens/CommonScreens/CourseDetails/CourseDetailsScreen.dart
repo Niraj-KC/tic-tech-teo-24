@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:teach_assist/Screens/CommonScreens/CourseDetails/link_card.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 import '../../../Models/Subject.dart';
 import '../../../main.dart';
@@ -55,9 +56,13 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                 SizedBox(height: 20,),
                 Container(
                   child: Text(
-                    (widget.sub.courseCode ?? "") + "-" + (widget.sub.name ?? ""),
+                    (widget.sub.courseCode ?? "") + " - " + (widget.sub.name ?? ""),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
+                ),
+                Text(
+                  "Given by " + (widget.sub.departmentId ?? "") +  "  Department",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                SizedBox(height: 20,),
                 Row(
@@ -87,11 +92,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   Widget buildTabContent() {
     switch (selectedTab) {
       case "Course Policy":
-        return Container(
-          child: Text(
-            "Course Policy Content",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Text("Course Policy",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+            SizedBox(height: 20,),
+            LinkCard(text: "Course Policy", url: "https://drive.google.com/file/d/1KJ1rP_z1YREnss3EuNq5e2-VKZwzxSTu/view?usp=sharing")
+
+
+
+          ],
         );
       case "Materials":
         return Container(

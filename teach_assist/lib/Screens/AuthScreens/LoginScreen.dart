@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:teach_assist/API/FirebaseAuthentication/AppFirebaseAuth.dart';
 import 'package:teach_assist/Models/Student.dart';
 import 'package:teach_assist/Models/Teacher.dart';
+import 'package:teach_assist/Screens/StudentScreens/StudentHomeScreen.dart';
+import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
+import 'package:teach_assist/Transitions/LeftToRight.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
 import 'package:teach_assist/Screens/StudentScreens/StudentHomeScreen.dart';
 import 'package:teach_assist/Transitions/LeftToRight.dart';
@@ -22,8 +25,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController(text: "teach1@abc.com");
+  TextEditingController _passwordController = TextEditingController(text: "12345678");
 
   // Checkbox state
   bool _isStudent = false;
