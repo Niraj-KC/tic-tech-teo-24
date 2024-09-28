@@ -12,7 +12,9 @@ class Subject {
       this.courseCode, 
       this.departmentId, 
       this.coursePolicy, 
-      this.materials,});
+      this.materials,
+      this.studentsEnrolled
+  });
 
   Subject.fromJson(dynamic json) {
     id = json['id'];
@@ -21,6 +23,7 @@ class Subject {
     departmentId = json['departmentId'];
     coursePolicy = json['coursePolicy'];
     materials = json['materials'] != null ? json['materials'].cast<String>() : [];
+    studentsEnrolled = json["studentsEnrolled"] != null ? json['studentsEnrolled'].cast<String>() : [];
   }
   String? id;
   String? name;
@@ -28,6 +31,8 @@ class Subject {
   String? departmentId;
   String? coursePolicy;
   List<String>? materials;
+  List<String>? studentsEnrolled;
+
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -37,7 +42,7 @@ class Subject {
     map['departmentId'] = departmentId;
     map['coursePolicy'] = coursePolicy;
     map['materials'] = materials;
+    map['studentsEnrolled'] = studentsEnrolled;
     return map;
   }
-
 }

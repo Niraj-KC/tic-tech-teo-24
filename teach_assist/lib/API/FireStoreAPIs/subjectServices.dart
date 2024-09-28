@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
+import 'package:teach_assist/Models/Student.dart';
 import 'package:teach_assist/Models/Subject.dart';
 
 class SubjectService {
   final CollectionReference subjectCollection =
   FirebaseFirestore.instance.collection('subjects');
+  final CollectionReference studentsCollection =
+  FirebaseFirestore.instance.collection('students');
 
   // Create Subject
   Future<void> addSubject(Subject subject) async {
@@ -61,6 +65,24 @@ class SubjectService {
     } catch (e) {
       print('Error getting subjects: $e');
       return [];
+    }
+  }
+
+  Future<void> enrollStudents(Subject subject, List<String> students) async {
+    try{
+      subject.studentsEnrolled?.addAll(students);
+      updateSubject(subject);
+      StudentService studentService = StudentService();
+      students.forEach((element) async {
+        Student? student = await studentService.getStudentById(element);
+        if(student != null){
+          student.allocatedSubjects?.add(AllocatedSubjects(courseCode: subject.id));
+          studentService.updateStudent(student);
+        }
+      });
+    }
+    catch (e){
+      print("Error while enrolling students");
     }
   }
 }
