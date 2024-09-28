@@ -14,7 +14,8 @@ class Student {
       this.rollNo, 
       this.currentSem, 
       this.departmentId, 
-      this.allocatedSubjects,});
+      this.allocatedSubjects,
+  });
 
   Student.fromJson(dynamic json)   {
     id = json['id'];

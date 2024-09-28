@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Screens/CommonScreens/CourseDetails/link_card.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
@@ -51,37 +54,39 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           backgroundColor: AppColors.theme['white'],
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: Text(
-                    (widget.sub.courseCode ?? "") + " - " + (widget.sub.name ?? ""),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildTab("Course Policy"),
-                    SizedBox(width: 5),
-                    _buildTab("Materials"),
-                    SizedBox(width: 5),
-                    _buildTab("Home Work"),
-                  ],
-                ),
-                SizedBox(height: 20),
-                AnimatedSwitcher(
-                  duration: Duration(milliseconds: 300),
-                  child: widget.isStudent ? buildStudentTabContent() : buildTeacherTabContent(),
-                ),
-              ],
+                  Container(
+                    child: Text(
+                      (widget.sub.courseCode ?? "") + " - " + (widget.sub.name ?? ""),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildTab("Course Policy"),
+                      SizedBox(width: 5),
+                      _buildTab("Materials"),
+                      SizedBox(width: 5),
+                      _buildTab("Home Work"),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  AnimatedSwitcher(
+                    duration: Duration(milliseconds: 300),
+                    child: widget.isStudent ? buildStudentTabContent() : buildTeacherTabContent(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -90,6 +95,23 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
   Widget buildStudentTabContent() {
+    File? _video;
+    final picker = ImagePicker();
+
+
+    //for picking videos
+     Future<void> _pickVideo() async {
+      final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        setState(() {
+          _video = File(pickedFile.path);
+        });
+      } else {
+        print('No video selected.');
+      }
+    }
+
     switch (selectedTab) {
       case "Course Policy":
         return widget.sub.coursePolicy!.isEmpty
@@ -114,11 +136,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               );
       case "Materials":
         return Container(
-          child: Text(
-            "Materials Content",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          child:Column(
+            children: [
+              Row(
+                children: [
+
+                ],
+              )
+            ],
+          )
         );
+
       case "Home Work":
         return Container(
            // todo:fetch here all home work for perticular course
@@ -131,7 +159,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   Widget buildTeacherTabContent() {
     switch (selectedTab) {
       case "Course Policy":
-        return widget.sub.coursePolicy != null && widget.sub.coursePolicy!.isEmpty
+        return widget.sub.coursePolicy != ""
             ? Center(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: mq.height * 0.3),
@@ -215,19 +243,21 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   ),
                 ),
               )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Course Policy",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
-                ],
-              );
+            : SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Course Policy",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
+                  ],
+                ),
+            );
       case "Materials":
         return Container(
           child: Text(

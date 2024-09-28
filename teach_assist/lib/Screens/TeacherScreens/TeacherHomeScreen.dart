@@ -18,6 +18,7 @@ import '../../Components/CourseCard.dart';
 import '../../Components/QuickAccessCard.dart';
 import '../../Models/Teacher.dart';
 import '../../main.dart';
+import 'Homework/AllCourseHomework.dart';
 import 'CreateNewStudent.dart';
 import 'IntroduceSubject.dart';
 import 'PostHomeWorks.dart';
@@ -230,7 +231,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         onTap: () {
-                          Navigator.push(context, LeftToRight(PostHomeWorks()));
+                          Navigator.push(context, LeftToRight(AllCourseHomeWork()));
                         },
                         leading: Icon(Icons.check_circle_outline),
                         title: Text(
