@@ -1,3 +1,10 @@
+buildscript {
+    ext {
+        kotlinVersion = "1.8.0"
+    }
+}
+
+
 plugins {
     id "com.android.application"
     // START: FlutterFire Configuration
@@ -48,7 +55,7 @@ android {
         applicationId "com.example.teach_assist"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 22
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -66,5 +73,7 @@ android {
 flutter {
     source '../..'
 }
-
+//configurations.implementation {
+//    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
+//}
 dependencies {}

@@ -47,6 +47,10 @@ dependencies:
   introduction_screen: ^3.1.14
   fluttertoast:
 
+  geolocator:
+  geofence_service:
+  timer_builder:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
