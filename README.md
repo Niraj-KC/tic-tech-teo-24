@@ -49,8 +49,6 @@ A personalized dashboard is available for both students and teachers, providing 
     <img src="https://assets.leetcode.com/users/images/42408edc-0f3e-45ad-969b-7da92d470d24_1727537329.8275836.jpeg" alt="img2" width="32%" />
     <img src="https://assets.leetcode.com/users/images/f237f477-0110-4ebc-b25f-24c4c9491bb2_1727537330.0615456.jpeg" alt="img3" width="32%" />
     <img src="https://assets.leetcode.com/users/images/670ffbe3-66cb-4186-85b3-02407e52d873_1727537330.156631.jpeg" alt="img4" width="32%" />
-
-    <!-- Second Row -->
     
 </div>
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
