@@ -171,7 +171,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                   child: ListTile(
                     leading: Image.asset("assets/images/student.png"),
                     title: Text(
-                      "Niraj Chaudhary",
+                      widget.student.name ?? "Niraj Chaudhari",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text("Student"),

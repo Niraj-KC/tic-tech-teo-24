@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LeftToRight extends PageRouteBuilder {
   final Widget page;
 
-  LeftToRight(this.page)
+    LeftToRight(this.page)
       : super(
     pageBuilder: (context, animation, anotherAnimation) => page,
     transitionDuration: Duration(milliseconds: 1000),

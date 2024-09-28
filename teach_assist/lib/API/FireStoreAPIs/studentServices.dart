@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:teach_assist/Models/Quiz.dart';
 import 'package:teach_assist/Models/Student.dart';
+import 'package:teach_assist/Models/Subject.dart';
 
 class StudentService {
   final CollectionReference studentCollection =
   FirebaseFirestore.instance.collection('students');
+  final CollectionReference subjectCollection =
+  FirebaseFirestore.instance.collection('subjects');
 
   // Create Student
   Future<void> addStudent(Student student) async {
@@ -64,4 +67,34 @@ class StudentService {
       return [];
     }
   }
+
+
+// Get Stream of Subjects for a Student based on AllocatedSubjects IDs
+  Stream<List<Subject>> getSubjectsForStudent(Student student) async* {
+    try {
+      // Get student by ID
+      if (student.allocatedSubjects == null) {
+        yield [];
+        return;
+      }
+
+      // Extract AllocatedSubjects IDs
+      List<String> subjectIds = student.allocatedSubjects!
+          .map((allocatedSubject) => allocatedSubject.id!)
+          .toList();
+
+      // Stream of Subjects based on AllocatedSubjects IDs
+      yield* subjectCollection
+          .where('id', whereIn: subjectIds) // Query subjects by their IDs
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => Subject.fromJson(doc.data() as Map<String, dynamic>))
+          .toList());
+    } catch (e) {
+      print('Error getting subjects: $e');
+      yield [];
+    }
+  }
+
+
 }

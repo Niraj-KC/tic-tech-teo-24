@@ -54,31 +54,31 @@ class Student {
 /// courseCode : "DS101"
 /// quizList : [{"courseCode":"DS101","id":"QZ002","startDateTime":1633104000000,"endDateTime":1633107600000,"totalMarks":50,"marksOptained":50}]
 
-class AllocatedSubjects {
-  AllocatedSubjects({
-      this.courseCode, 
-      this.quizList,});
+  class AllocatedSubjects {
+    AllocatedSubjects({
+        this.id,
+        this.quizList,});
 
-  AllocatedSubjects.fromJson(dynamic json) {
-    courseCode = json['courseCode'];
-    if (json['quizList'] != null) {
-      quizList = [];
-      json['quizList'].forEach((v) {
-        quizList?.add(Quiz.fromJson(v));
-      });
+    AllocatedSubjects.fromJson(dynamic json) {
+      id = json['id'];
+      if (json['quizList'] != null) {
+        quizList = [];
+        json['quizList'].forEach((v) {
+          quizList?.add(Quiz.fromJson(v));
+        });
+      }
     }
-  }
-  String? courseCode;
-  List<Quiz>? quizList;
+    String? id;
+    List<Quiz>? quizList;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['courseCode'] = courseCode;
-    if (quizList != null) {
-      map['quizList'] = quizList?.map((v) => v.toJson()).toList();
+    Map<String, dynamic> toJson() {
+      final map = <String, dynamic>{};
+      map['id'] = id;
+      if (quizList != null) {
+        map['quizList'] = quizList?.map((v) => v.toJson()).toList();
+      }
+      return map;
     }
-    return map;
-  }
 
-}
+  }
 

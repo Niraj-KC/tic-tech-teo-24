@@ -51,6 +51,8 @@ dependencies:
   geolocator:
   geofence_service:
   timer_builder:
+  permission_handler:
+  provider:
 
 dev_dependencies:
   flutter_test:

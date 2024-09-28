@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:teach_assist/Providers/CurrentUserProvider.dart';
 import 'package:teach_assist/Screens/OnboardScreens/OnboardScreen.dart';
 import 'package:teach_assist/Screens/OnboardScreens/SplashScreen.dart';
 import 'package:teach_assist/Screens/temp.dart';
@@ -19,12 +21,12 @@ void main() async {
   // AppFirebaseAuth.signUp("stud1@abc.com", "12345678", null, Student(name: "s1", departmentId: "d1", allocatedSubjects: [AllocatedSubjects(courseCode: "daa")]), true);
   // print("user created");
 
-  print("Subject start");
-  await subjectTest();
-  print("Subject end");
+  // print("Subject start");
+  // await subjectTest();
+  // print("Subject end");
 
 
-  runApp(MyApp()) ;
+  runApp(MultiProvider(providers: [ChangeNotifierProvider(create: (context)=>CurrentUserProvider())], child: MyApp())) ;
 }
 
 class MyApp extends StatefulWidget {
@@ -41,6 +43,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
       // home: AttendanceApp(),
+
     );
   }
 }

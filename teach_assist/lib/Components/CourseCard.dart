@@ -46,7 +46,7 @@ class _CourseCardState extends State<CourseCard> {
           scale: _scale,
           child: Container(
             height: 250,
-            width: double.infinity,
+            // width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(

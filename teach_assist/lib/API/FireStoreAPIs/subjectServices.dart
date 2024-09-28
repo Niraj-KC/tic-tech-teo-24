@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
+import 'package:teach_assist/API/FireStoreAPIs/teacherServices.dart';
 import 'package:teach_assist/API/FirebaseAPIs.dart';
 import 'package:teach_assist/Models/Student.dart';
 import 'package:teach_assist/Models/Subject.dart';
+import 'package:teach_assist/Models/Teacher.dart';
 
 class SubjectService {
   final CollectionReference subjectCollection =
@@ -11,12 +13,15 @@ class SubjectService {
   FirebaseFirestore.instance.collection('students');
 
   // Create Subject
-  Future<void> addSubject(Subject subject) async {
+  Future<String> addSubject(Subject subject, Teacher teacher) async {
     try {
       await subjectCollection.doc(subject.id).set(subject.toJson());
+      await TeacherService().addSubject(teacher, subject.id!);
       print('Subject added successfully!');
+      return 'Subject added successfully!';
     } catch (e) {
       print('Error adding subject: $e');
+      return 'Something went wrong';
     }
   }
 
@@ -80,7 +85,7 @@ class SubjectService {
       students.forEach((element) async {
         Student? student = await studentService.getStudentById(element);
         if(student != null){
-          student.allocatedSubjects?.add(AllocatedSubjects(courseCode: subject.id));
+          student.allocatedSubjects?.add(AllocatedSubjects(id: subject.id));
           studentService.updateStudent(student);
         }
       });
@@ -125,7 +130,7 @@ Future<void> subjectTest() async {
     id: FirebaseAPIs.uuid.v1()
   );
 
-  service.addSubject(subject);
+  // service.addSubject(subject);
 
   service.enrollStudents(subject, ["c1pJgYokjGYAz12IMl66fhp3t0u1"]);
 

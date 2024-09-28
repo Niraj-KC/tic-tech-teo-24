@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:teach_assist/Models/Teacher.dart';
 
+import '../../Models/Subject.dart';
+
 class TeacherService {
   final CollectionReference teacherCollection =
   FirebaseFirestore.instance.collection('teachers');
+  final CollectionReference subjectCollection =
+  FirebaseFirestore.instance.collection('subjects');
 
   // Create a new teacher document
   Future<void> addTeacher(Teacher teacher) async {
@@ -61,6 +65,38 @@ class TeacherService {
     } catch (e) {
       print('Error getting teachers: $e');
       return [];
+    }
+  }
+
+  Future<void> addSubject(Teacher teacher, String subjectId) async {
+    teacher.subjects ??= [];
+    teacher.subjects!.add(subjectId);
+    await teacherCollection.doc(teacher.id).set({"subjects": teacher.subjects});
+  }
+
+  // Get Stream of Subjects for a Teacher based on AllocatedSubjects IDs
+  Stream<List<Subject>> getSubjectsForTeacher(Teacher teacher) async* {
+    try {
+      // Get student by ID
+      if (teacher.subjects == null) {
+        yield [];
+        return;
+      }
+
+      // Extract AllocatedSubjects IDs
+      List<String> subjectIds = teacher.subjects!;
+
+      // Stream of Subjects based on AllocatedSubjects IDs
+      yield* subjectCollection
+          .where('id', whereIn: subjectIds) // Query subjects by their IDs
+          .snapshots()
+          .map((snapshot) =>
+          snapshot.docs
+              .map((doc) => Subject.fromJson(doc.data() as Map<String, dynamic>))
+              .toList());
+    } catch (e) {
+      print('Error getting subjects: $e');
+      yield [];
     }
   }
 }
