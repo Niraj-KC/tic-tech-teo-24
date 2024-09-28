@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:teach_assist/API/FirebaseAuthentication/AppFirebaseAuth.dart';
 import 'package:teach_assist/Models/Student.dart';
 import 'package:teach_assist/Models/Teacher.dart';
+import 'package:teach_assist/Screens/StudentScreens/StudentHomeScreen.dart';
+import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
+import 'package:teach_assist/Transitions/LeftToRight.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 
@@ -109,11 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       print("#res-type ${res.runtimeType}");
                       if(res.runtimeType == Teacher){
                         print("Navigating to teacher home page");
-                        // todo : Navigate to teacher home page
+                        Navigator.pushReplacement(context, LeftToRight(TeacherHomeScreen())) ;
                       }
                       else if(res.runtimeType == Student){
                         print("Navigating to student home page");
-                        // todo : Navigate to student home page
+                        Navigator.pushReplacement(context, LeftToRight(StudentHomeScreen())) ;
                       }
                       else{
                         print("Error: $res");
