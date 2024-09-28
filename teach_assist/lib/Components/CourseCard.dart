@@ -74,7 +74,7 @@ class _CourseCardState extends State<CourseCard> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
                       child: Image.asset(
-                        "assets/images/course cover.jpg",
+                        !widget.isStudent ? "assets/images/course cover.jpg" : "assets/images/student_course_cover.jpg",
                         fit: BoxFit.cover,
                       ),
                     ),
