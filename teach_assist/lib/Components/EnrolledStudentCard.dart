@@ -14,13 +14,13 @@ class EnrolledStudentCard extends StatefulWidget {
 
 class _EnrolledStudentCardState extends State<EnrolledStudentCard> {
   late bool _isEnrolled;
-  late bool _isChecked; // To track the checkbox state
+  late bool _isChecked;
 
   @override
   void initState() {
     super.initState();
     _isEnrolled = widget.isEnrolled;
-    _isChecked = false; // Initially not checked for non-enrolled students
+    _isChecked = false;
   }
 
   void toggleCheckbox() {
@@ -36,17 +36,20 @@ class _EnrolledStudentCardState extends State<EnrolledStudentCard> {
       child: ListTile(
         tileColor: AppColors.theme['offWhite'],
         leading: _isEnrolled
-            ? Icon(
-          Icons.verified_user,
-          color: AppColors.theme['green'],
-        ) // Show the verified icon for enrolled students
+            ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Icon(
+                        Icons.verified_user,
+                        color: AppColors.theme['green'],
+                      ),
+            )
             : Checkbox(
           value: _isChecked,
           onChanged: (bool? value) {
-            toggleCheckbox(); // Toggle the checkbox on click
+            toggleCheckbox();
           },
           activeColor: AppColors.theme['green'],
-        ), // Show the checkbox for non-enrolled students
+        ),
         title: Text(
           widget.st.name ?? "",
           style: TextStyle(
@@ -58,7 +61,6 @@ class _EnrolledStudentCardState extends State<EnrolledStudentCard> {
           widget.st.rollNo ?? "",
           style: TextStyle(color: AppColors.theme['black']),
         ),
-        // No trailing icon used
       ),
     );
   }
