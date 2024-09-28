@@ -46,8 +46,8 @@ A personalized dashboard is available for both students and teachers, providing 
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
     <img src="https://assets.leetcode.com/users/images/42408edc-0f3e-45ad-969b-7da92d470d24_1727537329.8275836.jpeg" alt="img2" width="30%" />
-    <img src="https://assets.leetcode.com/users/images/1c774adb-8945-4ebc-8b20-cd758282c63e_1727537330.2552488.jpeg" alt="img3" width="30%" />
-    <img src="https://assets.leetcode.com/users/images/f237f477-0110-4ebc-b25f-24c4c9491bb2_1727537330.0615456.jpeg" alt="img4" width="30%" />
+    <img src="https://assets.leetcode.com/users/images/1c774adb-8945-4ebc-8b20-cd758282c63e_1727537330.2552488.jpeg" alt="img4" width="30%" />
+    <img src="https://assets.leetcode.com/users/images/f237f477-0110-4ebc-b25f-24c4c9491bb2_1727537330.0615456.jpeg" alt="img5" width="30%" />
     <img src="https://assets.leetcode.com/users/images/670ffbe3-66cb-4186-85b3-02407e52d873_1727537330.156631.jpeg" alt="img5" width="30%" />
     <img src="https://assets.leetcode.com/users/images/d5a66db7-c538-422f-92f2-0726088a2f79_1727537330.637097.jpeg" alt="img6" width="30%" />
     <img src="https://assets.leetcode.com/users/images/867bf085-9c24-494b-813f-44e239315637_1727537330.4748924.jpeg" alt="img7" width="30%" />
