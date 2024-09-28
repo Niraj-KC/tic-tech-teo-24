@@ -18,7 +18,7 @@ class _LinkCardState extends State<LinkCard> {
     return Container(
       height: 70,
       decoration: BoxDecoration(
-        color: AppColors.theme['offWhite'],
+        color: AppColors.theme['offWhite'].withOpacity(0.4),
         border: Border.all(
           color: Colors.grey,
         ),
@@ -36,7 +36,7 @@ class _LinkCardState extends State<LinkCard> {
               child: Text(
             widget.text,
             style: TextStyle(
-                color: Colors.blue, fontWeight: FontWeight.bold),
+                color: Colors.blue, fontWeight: FontWeight.bold,fontSize: 18),
            )
           ),
         ],

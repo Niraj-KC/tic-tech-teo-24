@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teach_assist/Providers/CurrentUserProvider.dart';
 import 'package:teach_assist/Transitions/LeftToRight.dart';
+import '../../API/FirebaseAPIs.dart';
 import '../../Components/CourseCard.dart';
 import '../../Components/CustomTextField.dart';
 import '../../Components/QuickAccessCard.dart';
 import '../../Models/Subject.dart';
+import '../../Transitions/RightToLeft.dart';
 import '../../Utils/ThemeData/colors.dart';
 import '../../main.dart';
+import '../AuthScreens/LoginScreen.dart';
 import 'UpcomingSubmissionScreen.dart';
 
 class StudentHomeScreen extends StatefulWidget {
@@ -176,6 +179,16 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text("Student"),
+                        trailing: IconButton(
+                          icon: Icon(
+                            Icons.logout,
+                            color: Colors.red,
+                          ),
+                          onPressed: () async {
+                            await FirebaseAPIs.auth.signOut();
+                            Navigator.pushReplacement(context, RightToLeft(LoginScreen())) ;
+                          },
+                        )
                     ),
                   ),
                 ),

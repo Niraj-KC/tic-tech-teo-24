@@ -63,10 +63,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                Text(
-                  "Given by " + (widget.sub.departmentId ?? "") + "  Department",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
                 SizedBox(
                   height: 20,
                 ),

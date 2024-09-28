@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:teach_assist/API/FirebaseAPIs.dart';
+import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
 
 import '../../Transitions/LeftToRight.dart';
 import '../../Utils/ThemeData/colors.dart';
@@ -27,7 +29,12 @@ class _SplashScreenState extends State<SplashScreen> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ));
 
-      Navigator.pushReplacement(context, LeftToRight(OnboardingScreen()));
+
+
+        Navigator.pushReplacement(context, LeftToRight(OnboardingScreen()));
+
+
+
     });
   }
 
