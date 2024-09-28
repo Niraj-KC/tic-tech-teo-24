@@ -40,14 +40,17 @@ class _QuickAccessCardState extends State<QuickAccessCard> {
       onTapCancel: _onTapCancel,
       child: Transform.scale(
         scale: _scale,
-        child: Container(
-          height: 40,
-          width: 170,
-          decoration: BoxDecoration(
-            color: AppColors.theme['offWhite'],
-            borderRadius: BorderRadius.circular(10),
+        child: InkWell(
+          onTap: widget.ontap,
+          child: Container(
+            height: 40,
+            width: 170,
+            decoration: BoxDecoration(
+              color: AppColors.theme['offWhite'],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(child: Text(widget.text)),
           ),
-          child: Center(child: Text(widget.text)),
         ),
       ),
     );

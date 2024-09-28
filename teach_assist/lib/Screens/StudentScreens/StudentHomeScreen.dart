@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teach_assist/Transitions/LeftToRight.dart';
 
 import '../../Components/CourseCard.dart';
 import '../../Components/CustomTextField.dart';
@@ -7,6 +8,7 @@ import '../../Models/Student.dart';
 import '../../Models/Subject.dart';
 import '../../Utils/ThemeData/colors.dart';
 import '../../main.dart';
+import 'UpcomingSubmissionScreen.dart';
 
 class StudentHomeScreen extends StatefulWidget {
   final Student student ;
@@ -192,7 +194,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: ListTile(
                             leading: Icon(Icons.mark_chat_read_outlined),
-                            title: Text("View Attendance",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                            title: Text("View Attendance",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontSize: 14,fontWeight: FontWeight.bold),),
                           ),
                         ),
 
@@ -206,7 +208,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: ListTile(
                             leading: Icon(Icons.subject_outlined),
-                            title: Text("Subjects",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                            title: Text("Subjects",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                           ),
                         ),
 
@@ -220,14 +222,14 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: ListTile(
                             leading: Icon(Icons.history_edu_outlined),
-                            title: Text("View past tests",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                            title: Text("View past tests",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontSize: 14,fontWeight: FontWeight.bold),),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: ListTile(
                             leading: Icon(Icons.add),
-                            title: Text("Upcoming tests",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                            title: Text("Upcoming tests",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                           ),
                         ),
 
@@ -240,7 +242,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: ListTile(
                             leading: Icon(Icons.upload_file_outlined),
-                            title: Text("Upload Homeworks",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                            title: Text("Upload Homeworks",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                           ),
                         ),
 
@@ -305,7 +307,9 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                   children: [
                     QuickAccessCard(
                       text: 'Upcoming Submission',
-                      ontap: () {},
+                      ontap: () {
+                        Navigator.push(context, LeftToRight(UpcomingSubmissionScreen())) ;
+                      },
                     ),
                     SizedBox(
                       width: 5,
