@@ -120,13 +120,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           print("Navigating to teacher home page: uid : ${res.id}");
                           userProvider.setCurrent(res, false);
                           HelperFunction.showToast("Successfully login");
-                          Navigator.pushReplacement(context, LeftToRight(TeacherHomeScreen(teacher: res,)));
+                          Navigator.pushReplacement(context, LeftToRight(TeacherHomeScreen()));
                         }
                         else if(res.runtimeType == Student){
                           print("Navigating to student home page");
                           userProvider.setCurrent(res, true);
                           HelperFunction.showToast("Successfully login");
-                          Navigator.pushReplacement(context, LeftToRight(StudentHomeScreen(student: res,))) ;
+                          Navigator.pushReplacement(context, LeftToRight(StudentHomeScreen())) ;
                         }
                         else{
                           print("Error: $res");

@@ -6,8 +6,12 @@ import 'package:teach_assist/Components/CustomButton.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Models/Subject.dart';
 import 'package:teach_assist/Providers/CurrentUserProvider.dart';
+import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
+import 'package:teach_assist/Transitions/RightToLeft.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
+
+import '../../main.dart';
 
 class Introducesubject extends StatefulWidget {
   const Introducesubject({super.key});
@@ -25,20 +29,21 @@ class _IntroducesubjectState extends State<Introducesubject> {
   bool _isLoading = false ;
   @override
   Widget build(BuildContext context) {
+    mq = MediaQuery.of(context).size ;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: AppColors.theme['offWhite'],
         body: Consumer<CurrentUserProvider>(builder: (context, userProvider, child){
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding:  EdgeInsets.symmetric(horizontal: 20.0,vertical: mq.height*0.1),
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
                   SizedBox(height: 50,),
                   Center(child: Image.asset("assets/images/subject_introduce.png")) ,
-                  Text("Introduce new course",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                  Text("Introduce New Course",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
                   SizedBox(height: 10,),
                   CustomTextField(controller: _courseCodeController,hintText: "Enter course code", isNumber: false, obsecuretext: false,prefixicon: Icon(Icons.numbers_outlined),),
                   SizedBox(height: 10,),
@@ -64,6 +69,7 @@ class _IntroducesubjectState extends State<Introducesubject> {
                     });
 
                     HelperFunction.showToast(res);
+                    Navigator.pushReplacement(context, RightToLeft(TeacherHomeScreen())) ;
 
                   }, name: _isLoading ? "Registering..." : "Register", bcolor: AppColors.theme['green'], tcolor: AppColors.theme['white'], isLoading: _isLoading)
 

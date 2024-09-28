@@ -49,7 +49,7 @@ class _NewStudentState extends State<NewStudent> {
                   height: 10,
                 ),
                 Text(
-                  "Enroll new student",
+                  "Enroll New Student",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -59,16 +59,17 @@ class _NewStudentState extends State<NewStudent> {
                   height: 10,
                 ),
                 CustomTextField(
-                    hintText: "Enter student name",
+                    hintText: "Enter Student Name",
                     isNumber: false,
                     obsecuretext: false,
                      controller: _nameController,
+                    prefixicon: Icon(Icons.drive_file_rename_outline_outlined),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 CustomTextField(
-                    hintText: "Enter student roll no",
+                    hintText: "Enter Student Roll No",
                     isNumber: false,
                     obsecuretext: false,
                     prefixicon: Icon(Icons.numbers_sharp),
@@ -78,7 +79,7 @@ class _NewStudentState extends State<NewStudent> {
                   height: 10,
                 ),
                 CustomTextField(
-                    hintText: "Enter student department",
+                    hintText: "Enter Student Department",
                     isNumber: false,
                     obsecuretext: false,
                     prefixicon: Icon(Icons.group),
