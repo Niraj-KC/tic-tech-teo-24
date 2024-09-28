@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
+import 'package:teach_assist/API/FirebaseAPIs.dart';
 import 'package:teach_assist/Models/Student.dart';
 import 'package:teach_assist/Models/Subject.dart';
 
@@ -70,8 +71,11 @@ class SubjectService {
 
   Future<void> enrollStudents(Subject subject, List<String> students) async {
     try{
-      subject.studentsEnrolled?.addAll(students);
-      updateSubject(subject);
+      subject.studentsEnrolled ??= [];
+      subject.studentsEnrolled!.addAll(students);
+      print("#se: ${subject.studentsEnrolled}");
+      subjectCollection.doc(subject.id).set({"studentsEnrolled": subject.studentsEnrolled});
+
       StudentService studentService = StudentService();
       students.forEach((element) async {
         Student? student = await studentService.getStudentById(element);
@@ -80,9 +84,51 @@ class SubjectService {
           studentService.updateStudent(student);
         }
       });
+
+      print("Student enrollment successful.");
     }
     catch (e){
       print("Error while enrolling students");
     }
   }
+
+  Future<void> updateCoursePolicy(String id, String url) async {
+    try{
+      subjectCollection.doc(id).set({"coursePolicy": url});
+      print("Course policy updated successfully.");
+    }
+    catch (e){
+      print("Error updating Course policy");
+    }
+  }
+
+  Future<void> updateMaterial(Subject subject) async {
+    try{
+      subjectCollection.doc(subject.id).set({"materials": subject.materials});
+      print("Course policy updated successfully.");
+    }
+    catch (e){
+      print("Error updating Course policy");
+    }
+  }
+
+}
+
+
+Future<void> subjectTest() async {
+  SubjectService service = SubjectService();
+
+  Subject subject = Subject(
+    courseCode: "CN",
+    departmentId: "CSE",
+    name: "Computer Networking",
+    id: FirebaseAPIs.uuid.v1()
+  );
+
+  service.addSubject(subject);
+
+  service.enrollStudents(subject, ["c1pJgYokjGYAz12IMl66fhp3t0u1"]);
+
+
+
 }

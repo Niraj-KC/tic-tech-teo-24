@@ -4,6 +4,7 @@ import 'package:teach_assist/Screens/OnboardScreens/OnboardScreen.dart';
 import 'package:teach_assist/Screens/OnboardScreens/SplashScreen.dart';
 import 'package:teach_assist/Screens/temp.dart';
 
+import 'API/FireStoreAPIs/subjectServices.dart';
 import 'firebase_options.dart';
 
 late Size mq ;
@@ -16,9 +17,12 @@ void main() async {
 
   // AppFirebaseAuth.signUp("teach1@abc.com", "12345678", Teacher(name: "t1", departmentId: "d1", subjects: ["daa"]), null, false);
   // AppFirebaseAuth.signUp("stud1@abc.com", "12345678", null, Student(name: "s1", departmentId: "d1", allocatedSubjects: [AllocatedSubjects(courseCode: "daa")]), true);
+  // print("user created");
 
+  print("Subject start");
+  await subjectTest();
+  print("Subject end");
 
-  print("user created");
 
   runApp(MyApp()) ;
 }
