@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 400, // Adjusted height to fit checkbox
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppColors.theme['green'].withOpacity(0.04),
+                color: AppColors.theme['green']?.withOpacity(0.04),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -115,18 +115,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       print("#res-type ${res.runtimeType}");
                       if(res.runtimeType == Teacher){
                         print("Navigating to teacher home page");
-                        // todo : Navigate to teacher home page
+                        HelperFunction.showToast("Successfully login");
+                        Navigator.pushReplacement(context, LeftToRight(TeacherHomeScreen(teacher: res,))) ;
                       }
                       else if(res.runtimeType == Student){
                         print("Navigating to student home page");
-                        // todo : Navigate to student home page
+                        HelperFunction.showToast("Successfully login");
+                        Navigator.pushReplacement(context, LeftToRight(StudentHomeScreen(student: res,))) ;
                       }
                       else{
                         print("Error: $res");
                         HelperFunction.showToast(res);
                       }
-
-                      Navigator.pushReplacement(context, LeftToRight(_isStudent ? StudentHomeScreen() : TeacherHomeScreen()));
 
                       setState(() {
                         _isLoading = false;

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import '../../Components/CourseCard.dart';
 import '../../Components/CustomTextField.dart';
 import '../../Components/QuickAccessCard.dart';
+import '../../Models/Student.dart';
 import '../../Models/Subject.dart';
 import '../../Utils/ThemeData/colors.dart';
 import '../../main.dart';
 
 class StudentHomeScreen extends StatefulWidget {
-  const StudentHomeScreen({super.key});
+  final Student student ;
+  const StudentHomeScreen({super.key, required this.student});
 
   @override
   State<StudentHomeScreen> createState() => _StudentHomeScreenState();
@@ -342,7 +344,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                           NeverScrollableScrollPhysics(), // Disable scrolling
                           itemBuilder: (context, index) {
                             final subject = subjects[index];
-                            return CourseCard(sub: subject);
+                            return CourseCard(sub: subject, isStudent: true,);
                           },
                         ),
                       ],

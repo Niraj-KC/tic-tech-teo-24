@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Models/Subject.dart';
+import 'package:teach_assist/Transitions/LeftToRight.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 
 import '../../Components/CourseCard.dart';
 import '../../Components/QuickAccessCard.dart';
+import '../../Models/Teacher.dart';
 import '../../main.dart';
+import 'IntroduceSubject.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
-  const TeacherHomeScreen({super.key});
+  final Teacher teacher ;
+  const TeacherHomeScreen({super.key, required this.teacher});
 
   @override
   State<TeacherHomeScreen> createState() => _TeacherHomeScreenState();
@@ -25,7 +29,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
       name: 'Intro Programming',
       courseCode: 'CS101',
       departmentId: 'CSE',
-      coursePolicy: 'Mandatory',
+      coursePolicy: '',
       materials: ['Textbook: Programming Basics', 'Online Resources'],
     ),
     Subject(
@@ -169,7 +173,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                   child: ListTile(
                     leading: Image.asset("assets/images/teacher.png"),
                     title: Text(
-                      "Hitesh Mori",
+                      widget.teacher.name ?? "Hitesh Mori",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text("Professor"),
@@ -200,32 +204,28 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                         title: Text("Attendance Review",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
                       ),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
                       child: Text("Subjects",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
-                        leading: Icon(Icons.subject_outlined),
-                        title: Text("Subjects",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: ListTile(
+                        onTap: (){
+                          Navigator.push(context, LeftToRight(Introducesubject())) ;
+                        },
                         leading: Icon(Icons.add_box_rounded),
                         title: Text("Introduce Subject",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
                       ),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
                       child: Text("Test",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
@@ -240,12 +240,12 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                         title: Text("Make test",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
                       ),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
                       child: Text("Upload",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
@@ -253,12 +253,12 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                         title: Text("Upload Homework",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
                       ),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
                       child: Text("Notify",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
@@ -266,7 +266,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                         title: Text("Make an Announcements",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
                       ),
                     ),
-                    
+
                                     ],
                                   ),
                   ))
@@ -366,7 +366,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                               NeverScrollableScrollPhysics(), // Disable scrolling
                           itemBuilder: (context, index) {
                             final subject = subjects[index];
-                            return CourseCard(sub: subject);
+                            return CourseCard(sub: subject, isStudent: false,);
                           },
                         ),
                       ],

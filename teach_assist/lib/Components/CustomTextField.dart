@@ -35,7 +35,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 20),
       child: Center(
         child: TextFormField(
-          cursorColor: AppColors.theme['white'],
+          cursorColor: AppColors.theme['black'],
           onSaved: onSaved,
           onChanged: onChange,
           obscureText: obsecuretext,
@@ -44,7 +44,7 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           decoration: InputDecoration(
               filled: true,
-              fillColor: AppColors.theme['white'],
+                            fillColor: AppColors.theme['white'],
               contentPadding: EdgeInsets.symmetric(horizontal: 20),
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.theme['white']),
