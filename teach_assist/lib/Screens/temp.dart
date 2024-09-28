@@ -16,11 +16,15 @@ class _AttendanceAppState extends State<AttendanceApp> {
   gl.Position? _currentPosition;
   bool _isWithinGeofence = false;
   Timer? _attendanceTimer;
-  final int _requiredDurationInMinutes = 5; // Required time to stay inside the area
+  final int _requiredDurationInMinutes = 50; // Required time to stay inside the area
   int _elapsedMinutes = 0;
 
-  double radius = 50;
   double? distance;
+
+  double lat = 23.1862499;
+  double long = 72.6285471;
+  double radius = 35;
+
 
   // Initialize the GeofenceService
   final GeofenceService _geofenceService = GeofenceService.instance.setup(
@@ -101,8 +105,8 @@ class _AttendanceAppState extends State<AttendanceApp> {
     distance = gl.Geolocator.distanceBetween(
       _currentPosition!.latitude,
       _currentPosition!.longitude,
-      23.022505, // Geofence center latitude
-      72.5713621, // Geofence center longitude
+      lat, // Geofence center latitude
+      long, // Geofence center longitude
     );
     setState(() {});
 
@@ -132,9 +136,9 @@ class _AttendanceAppState extends State<AttendanceApp> {
     _geofenceService.addGeofence(
       Geofence(
         id: "attendance_area",
-        latitude: 23.022505, // Example coordinates
-        longitude: 72.5713621,
-        radius: [GeofenceRadius(id: "r100m", length: radius)], // 1000 meters
+        latitude: lat, // Example coordinates
+        longitude: long,
+        radius: [GeofenceRadius(id: "r100m", length: radius)],
       ),
     );
 
@@ -174,8 +178,9 @@ class _AttendanceAppState extends State<AttendanceApp> {
   }
 
   void _startTimer() {
-    _attendanceTimer = Timer.periodic(Duration(minutes: 1), (timer) {
+    _attendanceTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       print("_eT: $_elapsedMinutes");
+      _getCurrentLocation();
       setState(() {
         _elapsedMinutes++;
       });

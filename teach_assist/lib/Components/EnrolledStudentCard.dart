@@ -5,8 +5,10 @@ import '../Utils/ThemeData/colors.dart';
 class EnrolledStudentCard extends StatefulWidget {
   final Student st;
   final bool isEnrolled;
+  final Function(Student) addStudent;
+  final Function(Student) removeStudent;
 
-  const EnrolledStudentCard({super.key, required this.st, required this.isEnrolled});
+  const EnrolledStudentCard({super.key, required this.st, required this.isEnrolled, required this.addStudent, required this.removeStudent});
 
   @override
   State<EnrolledStudentCard> createState() => _EnrolledStudentCardState();
@@ -26,6 +28,7 @@ class _EnrolledStudentCardState extends State<EnrolledStudentCard> {
   void toggleCheckbox() {
     setState(() {
       _isChecked = !_isChecked;
+      _isChecked ? widget.addStudent(widget.st): widget.removeStudent(widget.st);
     });
   }
 

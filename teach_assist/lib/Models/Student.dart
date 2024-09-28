@@ -49,6 +49,11 @@ class Student {
     return map;
   }
 
+  @override
+  String toString(){
+    return "$name [$rollNo]";
+  }
+
 }
 
 /// courseCode : "DS101"

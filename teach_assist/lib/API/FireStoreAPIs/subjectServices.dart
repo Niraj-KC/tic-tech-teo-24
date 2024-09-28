@@ -74,26 +74,27 @@ class SubjectService {
     }
   }
 
-  Future<void> enrollStudents(Subject subject, List<String> students) async {
+  Future<String> enrollStudents(Subject subject, List<Student> students) async {
     try{
       subject.studentsEnrolled ??= [];
-      subject.studentsEnrolled!.addAll(students);
+      subject.studentsEnrolled!.addAll(students.map((e) => e.id!));
       print("#se: ${subject.studentsEnrolled}");
-      subjectCollection.doc(subject.id).set({"studentsEnrolled": subject.studentsEnrolled});
+      subjectCollection.doc(subject.id).update({"studentsEnrolled": subject.studentsEnrolled});
 
       StudentService studentService = StudentService();
       students.forEach((element) async {
-        Student? student = await studentService.getStudentById(element);
-        if(student != null){
-          student.allocatedSubjects?.add(AllocatedSubjects(id: subject.id));
-          studentService.updateStudent(student);
-        }
+        element.allocatedSubjects ??= [];
+        element.allocatedSubjects!.add(AllocatedSubjects(id: subject.id));
+        studentService.updateStudent(element);
       });
 
       print("Student enrollment successful.");
+      return "Student enrollment successful.";
     }
     catch (e){
       print("Error while enrolling students");
+
+      return "Error while enrolling students";
     }
   }
 
@@ -132,7 +133,7 @@ Future<void> subjectTest() async {
 
   // service.addSubject(subject);
 
-  service.enrollStudents(subject, ["c1pJgYokjGYAz12IMl66fhp3t0u1"]);
+  // service.enrollStudents(subject, ["c1pJgYokjGYAz12IMl66fhp3t0u1"]);
 
 
 

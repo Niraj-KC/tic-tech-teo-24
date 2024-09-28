@@ -22,9 +22,7 @@ import 'CreateNewStudent.dart';
 import 'IntroduceSubject.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
-  const TeacherHomeScreen({
-    super.key,
-  });
+  const TeacherHomeScreen({super.key,});
 
   @override
   State<TeacherHomeScreen> createState() => _TeacherHomeScreenState();
@@ -36,7 +34,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
   @override
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;
-    return Consumer<CurrentUserProvider>(builder: (context, value, child) {
+    return Consumer<CurrentUserProvider>(builder: (context,value,child){
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -59,22 +57,12 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ListTile(
-                        leading: Image.asset("assets/images/teacher.png"),
-                        title: Text(
-                          value.user.name ?? "Hitesh Mori",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text("Professor"),
-                        trailing: IconButton(
-                          icon: Icon(
-                            Icons.logout,
-                            color: Colors.red,
-                          ),
-                          onPressed: () async {
-                            await FirebaseAPIs.auth.signOut();
-                            Navigator.pushReplacement(context, RightToLeft(LoginScreen())) ;
-                          },
-                        )
+                      leading: Image.asset("assets/images/teacher.png"),
+                      title: Text(
+                        value.user.name ?? "Hitesh Mori",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text("Professor"),
                     ),
                   ),
                 ),
@@ -287,7 +275,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                         child: ListTile(
                           onTap: () {
                             Navigator.push(
-                                context, LeftToRight(Enrolledstudents()));
+                                context, LeftToRight(const AllCourses()));
                           },
                           leading: Icon(Icons.verified_user_rounded),
                           title: Text(
@@ -332,7 +320,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                           },
                           child: CircleAvatar(
                             backgroundImage:
-                                AssetImage("assets/images/teacher.png"),
+                            AssetImage("assets/images/teacher.png"),
                             backgroundColor: AppColors.theme['white'],
                           ),
                         ),
@@ -389,12 +377,11 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
+
                           StreamBuilder(
-                            stream: TeacherService()
-                                .getSubjectsForTeacher(value.user),
+                            stream: TeacherService().getSubjectsForTeacher(value.user),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
                                 // return CircularProgressIndicator();
                               }
 
@@ -409,16 +396,14 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                               List<Subject> subjects = snapshot.data!;
 
                               return GridView.builder(
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2, // Two columns
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10,
                                 ),
                                 itemCount: subjects.length,
                                 shrinkWrap: true, // Prevents height issues
-                                physics:
-                                    NeverScrollableScrollPhysics(), // Disable scrolling
+                                physics: NeverScrollableScrollPhysics(), // Disable scrolling
                                 itemBuilder: (context, index) {
                                   final subject = subjects[index];
                                   return CourseCard(
@@ -429,6 +414,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                               );
                             },
                           )
+
                         ],
                       ),
                     ),

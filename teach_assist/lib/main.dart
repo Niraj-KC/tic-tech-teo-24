@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:teach_assist/Providers/CurrentUserProvider.dart';
 import 'package:teach_assist/Screens/OnboardScreens/OnboardScreen.dart';
 import 'package:teach_assist/Screens/OnboardScreens/SplashScreen.dart';
-import 'package:teach_assist/Screens/temp.dart';
+import 'package:teach_assist/Screens/temp2.dart';
 
 import 'API/FireStoreAPIs/subjectServices.dart';
 import 'firebase_options.dart';

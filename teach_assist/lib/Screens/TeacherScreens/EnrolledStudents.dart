@@ -1,25 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
+import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
+import 'package:teach_assist/Models/Subject.dart';
+import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
 
 import '../../Components/EnrolledStudentCard.dart';
 import '../../Models/Student.dart';
 import '../../Utils/ThemeData/colors.dart';
 
-class Enrolledstudents extends StatefulWidget {
-  const Enrolledstudents({super.key});
+class EnrolledStudents extends StatefulWidget {
+  final Subject subject;
+
+  const EnrolledStudents({required this.subject, super.key});
 
   @override
-  State<Enrolledstudents> createState() => _EnrolledstudentsState();
+  State<EnrolledStudents> createState() => _EnrolledStudentsState();
 }
 
-class _EnrolledstudentsState extends State<Enrolledstudents> {
-  Student st = Student(
-      id: "12",
-      name: "Hitesh Mori",
-      rollNo: "22BCE197",
-      currentSem: "4",
-      departmentId: "CSE",
-      allocatedSubjects: []);
+class _EnrolledStudentsState extends State<EnrolledStudents> {
+  Student st = Student(id: "12", name: "Hitesh Mori", rollNo: "22BCE197", currentSem: "4", departmentId: "CSE", allocatedSubjects: []);
+
+  List<Student> _selectedStudents = [];
+  bool _isLoading = false;
+
+  void _addStudent(Student student) {
+    // setState(() {
+      _selectedStudents.add(student);
+    // });
+  }
+
+  void _removeStudent(Student student) {
+    // setState(() {
+      _selectedStudents.removeWhere((studentInList) => student.id == studentInList.id);
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,8 +43,33 @@ class _EnrolledstudentsState extends State<Enrolledstudents> {
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.theme['green'],
-          onPressed: () {},
-          child: Icon(Icons.add,color: Colors.white,),
+          onPressed: () async {
+            print("#ss $_selectedStudents");
+            setState(() {
+              _isLoading = true;
+            });
+            final res = await SubjectService().enrollStudents(widget.subject, _selectedStudents);
+
+            // _selectedStudents.forEach((selStudent) {
+            //   _students.removeWhere((stud) => stud.id == selStudent.id);
+            //   _students.add(selStudent);
+            // });
+
+            // Navigator.pop(context);
+
+            setState(() {
+              _isLoading = false;
+            });
+            HelperFunction.showToast(res);
+          },
+          child: _isLoading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
         ),
         backgroundColor: AppColors.theme['offWhite'],
         body: SafeArea(
@@ -36,11 +77,11 @@ class _EnrolledstudentsState extends State<Enrolledstudents> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
-                  child: CustomTextField(
+                  child: const CustomTextField(
                     hintText: "Search Students",
                     isNumber: false,
                     obsecuretext: false,
@@ -53,11 +94,37 @@ class _EnrolledstudentsState extends State<Enrolledstudents> {
                   // todo: add here stream builder of students that are enrolled in specific course
 
                   children: [
-                    // example
-                    // already enrolled
-                    EnrolledStudentCard(st: this.st, isEnrolled: true),
-                    //  not enrolled
-                    EnrolledStudentCard(st: this.st, isEnrolled: false),
+                    FutureBuilder(
+                      future: StudentService().getAllStudents(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        }
+
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
+
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return const Text('No subjects found');
+                        }
+
+                        List<Student> students = snapshot.data!;
+
+
+
+                        return Column(
+                          children: students
+                              .map((e) => EnrolledStudentCard(
+                                    st: e,
+                                    isEnrolled: (e.allocatedSubjects?.any((element) => element.id == widget.subject.id) ?? false),
+                                    addStudent: _addStudent,
+                                    removeStudent: _removeStudent,
+                                  ))
+                              .toList(),
+                        );
+                      },
+                    )
                   ],
                 )))
               ],
