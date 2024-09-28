@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
+import 'package:teach_assist/API/FireStoreAPIs/teacherServices.dart';
+import 'package:teach_assist/API/FirebaseAPIs.dart';
+import 'package:teach_assist/Models/Student.dart';
+import 'package:teach_assist/Models/Teacher.dart';
+import 'package:teach_assist/Providers/CurrentUserProvider.dart';
+import 'package:teach_assist/Screens/StudentScreens/StudentHomeScreen.dart';
+import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
 import '../../Transitions/LeftToRight.dart';
 import '../../Utils/ThemeData/colors.dart';
 import '../../main.dart';
@@ -13,8 +22,36 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
 
+  Future initUser() async {
+    String? uid = FirebaseAPIs.auth.currentUser?.uid;
+    print("#authId: $uid");
+    if(uid != null){
+      try{
+        var user = await TeacherService().getTeacherById(uid);
+        print("User: $user");
+        if (user.runtimeType == Teacher) {
+          Provider.of<CurrentUserProvider>(context, listen: false).user = user;
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> TeacherHomeScreen()));
+        } else {
+          throw "Not in Teacher Collection";
+        }
+      }
+      catch (e){
+        print("#error: $e");
+        var user = await StudentService().getStudentById(uid);
+        print("User: $user");
+        if (user.runtimeType == Student) {
+          Provider.of<CurrentUserProvider>(context, listen: false).user = user;
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const StudentHomeScreen()));
+        }
+      }
+
+    }
+    print("#initUser complete");
+  }
+
+  @override
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 900), () {
@@ -30,7 +67,12 @@ class _SplashScreenState extends State<SplashScreen> {
          // todo  :check wether if user not log out then got to their resplective
       //  home screen if not then got the login screen
 
-        Navigator.pushReplacement(context, LeftToRight(LoginScreen()));
+      if(FirebaseAPIs.auth.currentUser != null){
+        initUser();
+      }else{
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen())) ;
+      }
+
 
 
 
