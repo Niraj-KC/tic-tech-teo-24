@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Models/Subject.dart';
+
+import 'package:teach_assist/Screens/TeacherScreens/EnrolledStudents.dart';
 import 'package:teach_assist/Transitions/LeftToRight.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 
@@ -9,10 +11,11 @@ import '../../Components/CourseCard.dart';
 import '../../Components/QuickAccessCard.dart';
 import '../../Models/Teacher.dart';
 import '../../main.dart';
+import 'EnrollNewStudent.dart';
 import 'IntroduceSubject.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
-  final Teacher teacher ;
+  final Teacher teacher;
   const TeacherHomeScreen({super.key, required this.teacher});
 
   @override
@@ -182,94 +185,203 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
               ),
               Expanded(
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                    SizedBox(height: 20,),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                      child: Text("Attendance",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Text(
+                        "Attendance",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.theme['black']),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.mark_chat_read_outlined),
-                        title: Text("Take Attendance",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text(
+                          "Take Attendance",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.reviews_outlined),
-                        title: Text("Attendance Review",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text(
+                          "Attendance Review",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
                       ),
                     ),
-
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                      child: Text("Subjects",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Text(
+                        "Subjects",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.theme['black']),
+                      ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
-                        onTap: (){
-                          Navigator.push(context, LeftToRight(Introducesubject())) ;
+                        onTap: () {
+                          Navigator.push(
+                              context, LeftToRight(Introducesubject()));
                         },
                         leading: Icon(Icons.add_box_rounded),
-                        title: Text("Introduce Subject",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text(
+                          "Introduce Subject",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                      child: Text("Test",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Text(
+                        "Test",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.theme['black']),
+                      ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.history_edu_outlined),
-                        title: Text("View past test",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text(
+                          "View past test",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.add),
-                        title: Text("Make test",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text(
+                          "Make test",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
                       ),
                     ),
-
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                      child: Text("Upload",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Text(
+                        "Checking",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.theme['black']),
+                      ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
-                        leading: Icon(Icons.upload_file_outlined),
-                        title: Text("Upload Homework",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        leading: Icon(Icons.check_circle_outline),
+                        title: Text(
+                          "Check Homework",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                      child: Text("Notify",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.theme['black']),),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Text(
+                        "Notify",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.theme['black']),
+                      ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.notifications_active_outlined),
-                        title: Text("Make an Announcements",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text(
+                          "Make an Announcements",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
                       ),
                     ),
-
-                                    ],
-                                  ),
-                  ))
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Text(
+                        "Students",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.theme['black']),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: ListTile(
+                        onTap: (){
+                          Navigator.push(context, LeftToRight(NewStudent())) ;
+                        },
+                        leading: Icon(Icons.add),
+                        title: Text(
+                          "Enroll new students",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: ListTile(
+                        onTap: (){
+                          Navigator.push(context, LeftToRight(Enrolledstudents())) ;
+                        },
+                        leading: Icon(Icons.verified_user_rounded),
+                        title: Text(
+                          "Enrolled students",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 50,),
+                  ],
+                ),
+              ))
             ],
           ),
         ),
@@ -366,7 +478,10 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                               NeverScrollableScrollPhysics(), // Disable scrolling
                           itemBuilder: (context, index) {
                             final subject = subjects[index];
-                            return CourseCard(sub: subject, isStudent: false,);
+                            return CourseCard(
+                              sub: subject,
+                              isStudent: false,
+                            );
                           },
                         ),
                       ],
