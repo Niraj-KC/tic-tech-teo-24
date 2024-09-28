@@ -32,40 +32,43 @@ class _IntroducesubjectState extends State<Introducesubject> {
         body: Consumer<CurrentUserProvider>(builder: (context, userProvider, child){
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              children: [
-                SizedBox(height: 50,),
-                Center(child: Image.asset("assets/images/subject_introduce.png")) ,
-                Text("Introduce new course",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
-                SizedBox(height: 10,),
-                CustomTextField(controller: _courseCodeController,hintText: "Enter course code", isNumber: false, obsecuretext: false,prefixicon: Icon(Icons.numbers_outlined),),
-                SizedBox(height: 10,),
-                CustomTextField(controller:_nameController,hintText: "Enter course name", isNumber: false, obsecuretext: false,prefixicon: Icon(Icons.drive_file_rename_outline),),
-                SizedBox(height: 10,),
-                CustomTextField(controller: _departNameController, hintText: "Enter course department name", isNumber: false, obsecuretext: false,prefixicon: Icon(Icons.drive_file_rename_outline_sharp),),
-                SizedBox(height: 50,),
-                AuthButton(onpressed: ()async{
-                  Subject subject = Subject(
-                      name: _nameController.text,
-                      courseCode: _courseCodeController.text,
-                      departmentId: _departNameController.text,
-                      id: FirebaseAPIs.uuid.v1()
-                  );
-                  setState(() {
-                    _isLoading = true;
-                  });
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(height: 50,),
+                  Center(child: Image.asset("assets/images/subject_introduce.png")) ,
+                  Text("Introduce new course",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                  SizedBox(height: 10,),
+                  CustomTextField(controller: _courseCodeController,hintText: "Enter course code", isNumber: false, obsecuretext: false,prefixicon: Icon(Icons.numbers_outlined),),
+                  SizedBox(height: 10,),
+                  CustomTextField(controller:_nameController,hintText: "Enter course name", isNumber: false, obsecuretext: false,prefixicon: Icon(Icons.drive_file_rename_outline),),
+                  SizedBox(height: 10,),
+                  CustomTextField(controller: _departNameController, hintText: "Enter course department name", isNumber: false, obsecuretext: false,prefixicon: Icon(Icons.drive_file_rename_outline_sharp),),
+                  SizedBox(height: 50,),
+                  AuthButton(onpressed: ()async{
+                    Subject subject = Subject(
+                        name: _nameController.text,
+                        courseCode: _courseCodeController.text,
+                        departmentId: _departNameController.text,
+                        id: FirebaseAPIs.uuid.v1()
+                    );
+                    setState(() {
+                      _isLoading = true;
+                    });
 
-                  final res = await SubjectService().addSubject(subject, userProvider.user);
+                    final res = await SubjectService().addSubject(subject, userProvider.user);
 
-                  setState(() {
-                    _isLoading = false;
-                  });
+                    setState(() {
+                      _isLoading = false;
+                    });
 
-                  HelperFunction.showToast(res);
+                    HelperFunction.showToast(res);
 
-                }, name: _isLoading ? "Registering..." : "Register", bcolor: AppColors.theme['green'], tcolor: AppColors.theme['white'], isLoading: _isLoading)
+                  }, name: _isLoading ? "Registering..." : "Register", bcolor: AppColors.theme['green'], tcolor: AppColors.theme['white'], isLoading: _isLoading)
 
-              ],
+                ],
+              ),
             ),
           );
         },)

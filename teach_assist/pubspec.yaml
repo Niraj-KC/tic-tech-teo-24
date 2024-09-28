@@ -47,7 +47,6 @@ dependencies:
   introduction_screen: ^3.1.14
   fluttertoast:
   url_launcher: ^6.3.0
-
   geolocator:
   geofence_service:
   timer_builder:

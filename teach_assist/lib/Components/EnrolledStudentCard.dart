@@ -31,35 +31,44 @@ class _EnrolledStudentCardState extends State<EnrolledStudentCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: AppColors.theme['offWhite'],
-      child: ListTile(
-        tileColor: AppColors.theme['offWhite'],
-        leading: _isEnrolled
-            ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Icon(
-                        Icons.verified_user,
-                        color: AppColors.theme['green'],
-                      ),
-            )
-            : Checkbox(
-          value: _isChecked,
-          onChanged: (bool? value) {
-            toggleCheckbox();
-          },
-          activeColor: AppColors.theme['green'],
-        ),
-        title: Text(
-          widget.st.name ?? "",
-          style: TextStyle(
-            color: AppColors.theme['black'],
-            fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14.0,vertical: 5),
+      child: Material(
+        elevation: 0,
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        child: Card(
+          elevation: 0,
+          color: AppColors.theme['white'],
+          child: ListTile(
+            tileColor: AppColors.theme['white'],
+            leading: _isEnrolled
+                ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Icon(
+                            Icons.verified_user,
+                            color: AppColors.theme['green'],
+                          ),
+                )
+                : Checkbox(
+              value: _isChecked,
+              onChanged: (bool? value) {
+                toggleCheckbox();
+              },
+              activeColor: AppColors.theme['green'],
+            ),
+            title: Text(
+              widget.st.name ?? "",
+              style: TextStyle(
+                color: AppColors.theme['black'],
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(
+              widget.st.rollNo ?? "",
+              style: TextStyle(color: AppColors.theme['black']),
+            ),
           ),
-        ),
-        subtitle: Text(
-          widget.st.rollNo ?? "",
-          style: TextStyle(color: AppColors.theme['black']),
         ),
       ),
     );

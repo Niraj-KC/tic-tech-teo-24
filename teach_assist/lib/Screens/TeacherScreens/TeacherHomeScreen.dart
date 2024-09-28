@@ -12,7 +12,7 @@ import '../../Components/CourseCard.dart';
 import '../../Components/QuickAccessCard.dart';
 import '../../Models/Teacher.dart';
 import '../../main.dart';
-import 'EnrollNewStudent.dart';
+import 'CreateNewStudent.dart';
 import 'IntroduceSubject.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
@@ -206,7 +206,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.mark_chat_read_outlined),
-                        title: Text("Take Attendance",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text("Take Attendance",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                       ),
                     ),
                     Padding(
@@ -235,7 +235,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                           Navigator.push(context, LeftToRight(Introducesubject())) ;
                         },
                         leading: Icon(Icons.add_box_rounded),
-                        title: Text("Introduce Subject",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text("Introduce Subject",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                       ),
                     ),
 
@@ -248,14 +248,14 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.history_edu_outlined),
-                        title: Text("View past test",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text("View past test",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.add),
-                        title: Text("Make test",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text("Make test",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                       ),
                     ),
 
@@ -268,7 +268,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.upload_file_outlined),
-                        title: Text("Upload Homework",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text("Upload Homework",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                       ),
                     ),
 
@@ -281,7 +281,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
                         leading: Icon(Icons.notifications_active_outlined),
-                        title: Text("Make an Announcements",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6)),),
+                        title: Text("Make an Announcements",style: TextStyle(color: AppColors.theme['black'].withOpacity(0.6),fontWeight: FontWeight.bold,fontSize: 14),),
                       ),
                     ),
                     Padding(
@@ -418,7 +418,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                             stream: TeacherService().getSubjectsForTeacher(widget.teacher),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {
-                                return CircularProgressIndicator();
+                                // return CircularProgressIndicator();
                               }
 
                               if (snapshot.hasError) {

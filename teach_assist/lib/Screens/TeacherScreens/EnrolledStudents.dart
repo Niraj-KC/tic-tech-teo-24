@@ -13,13 +13,23 @@ class Enrolledstudents extends StatefulWidget {
 }
 
 class _EnrolledstudentsState extends State<Enrolledstudents> {
-  
-  Student st  =  Student(id: "12",name: "Hitesh Mori",rollNo: "22BCE197",currentSem: "4",departmentId: "CSE",allocatedSubjects: []);
+  Student st = Student(
+      id: "12",
+      name: "Hitesh Mori",
+      rollNo: "22BCE197",
+      currentSem: "4",
+      departmentId: "CSE",
+      allocatedSubjects: []);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.theme['green'],
+          onPressed: () {},
+          child: Icon(Icons.add,color: Colors.white,),
+        ),
         backgroundColor: AppColors.theme['offWhite'],
         body: SafeArea(
           child: Padding(
@@ -40,20 +50,16 @@ class _EnrolledstudentsState extends State<Enrolledstudents> {
                 Expanded(
                     child: SingleChildScrollView(
                         child: Column(
-                          // todo: add here stream builder of students that are enrolled in specific course
-                          
-                       children: [
-                            // example
-                            // already enrolled
-                            EnrolledStudentCard(st: this.st, isEnrolled: true),
-                           //  not enrolled
-                            EnrolledStudentCard(st: this.st, isEnrolled: false),
+                  // todo: add here stream builder of students that are enrolled in specific course
 
-                       ],
-
-
-                        )
-                    ))
+                  children: [
+                    // example
+                    // already enrolled
+                    EnrolledStudentCard(st: this.st, isEnrolled: true),
+                    //  not enrolled
+                    EnrolledStudentCard(st: this.st, isEnrolled: false),
+                  ],
+                )))
               ],
             ),
           ),

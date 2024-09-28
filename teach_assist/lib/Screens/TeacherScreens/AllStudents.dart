@@ -16,6 +16,7 @@ class _AllStudentsState extends State<AllStudents> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: (){},child: Icon(Icons.add_box),),
        body:  SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
