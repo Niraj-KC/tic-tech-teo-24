@@ -84,7 +84,7 @@ We are making steady progress in the development of our customizable classroom m
 
 ---
 
-Check out this video tutorial on how to use the project: [Watch the video](https://youtu.be/xHnUr8TNTiI?si=nuxka5wOtdPg-tAJ).
+video demonstration: [Watch the video](https://youtu.be/xHnUr8TNTiI?si=nuxka5wOtdPg-tAJ).
 
 
 
