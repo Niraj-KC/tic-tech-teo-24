@@ -99,7 +99,7 @@ We are making steady progress in the development of our customizable classroom m
 
 ---
 
-Video Demonstration: [Watch the video](https://youtu.be/xHnUr8TNTiI?si=nuxka5wOtdPg-tAJ).
+For Video Demonstration: [Watch the video](https://youtu.be/xHnUr8TNTiI?si=nuxka5wOtdPg-tAJ).
 
 
 
