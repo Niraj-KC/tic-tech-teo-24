@@ -3,13 +3,12 @@ import 'package:teach_assist/Models/Quiz.dart';
 
 class Student {
   Student({
-    this.id,
-    this.name,
-    this.rollNo,
-    this.currentSem,
-    this.departmentId,
-    this.allocatedSubjects,
-  });
+      this.id, 
+      this.name, 
+      this.rollNo, 
+      this.currentSem, 
+      this.departmentId, 
+      this.allocatedSubjects,});
 
   // Create a Student object from JSON data
   Student.fromJson(Map<String, dynamic> json) {

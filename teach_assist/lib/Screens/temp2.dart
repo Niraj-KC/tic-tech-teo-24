@@ -13,7 +13,7 @@ class _AttendanceAppState extends State<AttendanceApp> {
   gl.Position? _currentPosition;
   bool _isWithinGeofence = false;
   Timer? _attendanceTimer;
-  final int _requiredDurationInMinutes = 50; // Required time to stay inside the area
+  final int _requiredDurationInMinutes = 50;
   int _elapsedMinutes = 0;
   double? _distance;
 

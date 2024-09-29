@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Screens/CommonScreens/CourseDetails/link_card.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
@@ -91,7 +94,23 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
   Widget buildStudentTabContent() {
-    print("#CP: ${widget.sub.coursePolicy}");
+    File? _video;
+    final picker = ImagePicker();
+
+
+    //for picking videos
+     Future<void> _pickVideo() async {
+      final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        setState(() {
+          _video = File(pickedFile.path);
+        });
+      } else {
+        print('No video selected.');
+      }
+    }
+
     switch (selectedTab) {
       case "Course Policy":
         return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
@@ -116,11 +135,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               );
       case "Materials":
         return Container(
-          child: Text(
-            "Materials Content",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          child:Column(
+            children: [
+              Row(
+                children: [
+
+                ],
+              )
+            ],
+          )
         );
+
       case "Home Work":
         return Container(
            // todo:fetch here all home work for perticular course
