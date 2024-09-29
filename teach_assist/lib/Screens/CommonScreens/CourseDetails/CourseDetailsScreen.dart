@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Screens/CommonScreens/CourseDetails/link_card.dart';
@@ -54,39 +55,37 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           backgroundColor: AppColors.theme['white'],
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: Text(
+                    (widget.sub.courseCode ?? "") + " - " + (widget.sub.name ?? ""),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                    child: Text(
-                      (widget.sub.courseCode ?? "") + " - " + (widget.sub.name ?? ""),
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildTab("Course Policy"),
-                      SizedBox(width: 5),
-                      _buildTab("Materials"),
-                      SizedBox(width: 5),
-                      _buildTab("Home Work"),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
-                    child: widget.isStudent ? buildStudentTabContent() : buildTeacherTabContent(),
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildTab("Course Policy"),
+                    SizedBox(width: 5),
+                    _buildTab("Materials"),
+                    SizedBox(width: 5),
+                    _buildTab("Home Work"),
+                  ],
+                ),
+                SizedBox(height: 20),
+                AnimatedSwitcher(
+                  duration: Duration(milliseconds: 300),
+                  child: widget.isStudent ? buildStudentTabContent() : buildTeacherTabContent(),
+                ),
+              ],
             ),
           ),
         ),
@@ -114,7 +113,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
 
     switch (selectedTab) {
       case "Course Policy":
-        return widget.sub.coursePolicy!.isEmpty
+        return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
             ? Center(
                 child: Text(
                   "Not uploaded yet",
@@ -157,9 +156,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
   Widget buildTeacherTabContent() {
+
+    print("#CP: ${widget.sub.coursePolicy}");
     switch (selectedTab) {
       case "Course Policy":
-        return widget.sub.coursePolicy != ""
+        return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
             ? Center(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: mq.height * 0.3),
@@ -216,6 +217,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                                         setState(() {
                                           widget.sub.coursePolicy = driveLink;
                                         });
+
+                                        SubjectService().updateCoursePolicy(widget.sub.id!, driveLink);
                                         Navigator.of(context).pop();
                                       } else {
                                         HelperFunction.showToast("Enter valid link");
@@ -243,21 +246,19 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   ),
                 ),
               )
-            : SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Course Policy",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
-                  ],
-                ),
-            );
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Course Policy",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
+                ],
+              );
       case "Materials":
         return Container(
           child: Text(
