@@ -82,3 +82,8 @@ A personalized dashboard is available for both students and teachers, providing 
 ## Conclusion
 We are making steady progress in the development of our customizable classroom management tool, focusing on features that reduce manual work for teachers and enhance student engagement through automated tools.
 
+---
+
+Check out this video tutorial on how to use the project: [Watch the video]([https://www.youtube.com/watch?v=example](https://www.youtube.com/watch?v=xHnUr8TNTiI)).
+
+
