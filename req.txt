@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+torch
+transformers
+moviepy
+reportlab
+pdfplumber
+google-generativeai
+markdown
+pdfkit
