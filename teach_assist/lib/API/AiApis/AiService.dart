@@ -62,6 +62,7 @@
 // }
 
 
+import 'dart:convert';
 import 'dart:io' as df;
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
@@ -123,4 +124,48 @@ class AiService {
       return "";
     }
   }
+
+
+
+  static Future<Map<String, dynamic>?> compareAnswers(String refUrl, String stdUrl) async {
+    // Set the base URL for your FastAPI app
+    String fastApiBaseUrl = "http://192.168.113.93:8005/compare_answers/";
+
+    // Ensure URLs are valid
+    if (refUrl.isEmpty || stdUrl.isEmpty) {
+      print('Reference URL or Student URL is empty.');
+      return null;
+    }
+
+    try {
+      // Construct the final URL with query parameters
+      String fullUrl = "$fastApiBaseUrl?reference_url=$refUrl&student_url=$stdUrl";
+
+      // Send the GET request (since data is passed as query parameters, POST isn't strictly needed)
+      var response = await http.post(
+        Uri.parse(fullUrl),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+
+      // Check if the response is OK (200)
+      if (response.statusCode == 200) {
+        // Parse and return the JSON response
+        Map<String, dynamic> similarityResult = jsonDecode(response.body);
+        print('Similarity result: $similarityResult');
+        return similarityResult;
+      } else {
+        print('Failed to compare answers. Status Code: ${response.statusCode}');
+        print('Response Content: ${response.body}');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+    }
+
+    return null;
+  }
+
 }
+
+

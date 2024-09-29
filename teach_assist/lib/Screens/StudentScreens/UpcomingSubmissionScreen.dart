@@ -82,7 +82,6 @@ class _UpcomingSubmissionScreenState extends State<UpcomingSubmissionScreen> {
                                       ...homeworkList.map((homework) {
                                         return HomeworkCard(
                                           homework: homework,
-
                                         );
                                       }).toList(),
                                       const SizedBox(height: 10), // Add spacing between courses

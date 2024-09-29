@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teach_assist/API/AiApis/AiService.dart';
 import 'package:teach_assist/API/FireStoreAPIs/homeworkService.dart';
+import 'package:teach_assist/ConstantData/ConstantData.dart';
 import 'package:teach_assist/Models/Homework.dart';
 import 'package:teach_assist/Providers/CurrentUserProvider.dart';
 import 'package:teach_assist/Utils/HelperFunctions/date_formation.dart';
-
 
 import '../Utils/HelperFunctions/HelperFunction.dart';
 import '../Utils/ThemeData/colors.dart';
@@ -22,18 +23,13 @@ class HomeworkCard extends StatefulWidget {
 class _HomeworkCardState extends State<HomeworkCard> {
   @override
   Widget build(BuildContext context) {
-
     mq = MediaQuery.of(context).size;
-
 
     final int curr = DateTime.now().millisecondsSinceEpoch;
 
     int submissionCloseDate;
     try {
-
-      submissionCloseDate = widget.homework.timeStampCreated != null
-          ? DateTime.parse(widget.homework.timeStampCreated!).millisecondsSinceEpoch
-          : 0;
+      submissionCloseDate = widget.homework.timeStampCreated != null ? DateTime.fromMillisecondsSinceEpoch(int.tryParse(widget.homework.timeStampCreated??"0")??0).millisecondsSinceEpoch : 0;
     } catch (e) {
       submissionCloseDate = 0;
       print('Invalid date format: ${widget.homework.timeStampCreated}');
@@ -41,7 +37,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
 
     bool isOverdue = curr < submissionCloseDate;
 
-    return Consumer<CurrentUserProvider>(builder: (context, currentUserProvider, child){
+    return Consumer<CurrentUserProvider>(builder: (context, currentUserProvider, child) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: Container(
@@ -66,10 +62,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                       ),
                       Text(
                         widget.homework.courseName ?? "",
-                        style: TextStyle(
-                            color: AppColors.theme['black'],
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: AppColors.theme['black'], fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -86,14 +79,9 @@ class _HomeworkCardState extends State<HomeworkCard> {
                             Text(
                               "Due Date: " +
                                   (widget.homework.timeStampDueDate != null
-                                      ? MyDateUtil.getMessageTime(
-                                      context: context,
-                                      time: widget.homework.timeStampDueDate!)
+                                      ? MyDateUtil.getMessageTime(context: context, time: widget.homework.timeStampDueDate!)
                                       : "N/A"),
-                              style: TextStyle(
-                                  color: AppColors.theme['black'],
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
+                              style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold, fontSize: 14),
                             ),
                           ],
                         ),
@@ -101,10 +89,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                           children: [
                             Text(
                               "Submission Name: " + (widget.homework.title ?? ""),
-                              style: TextStyle(
-                                  color: AppColors.theme['black'],
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
+                              style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold, fontSize: 14),
                             ),
                           ],
                         ),
@@ -117,16 +102,18 @@ class _HomeworkCardState extends State<HomeworkCard> {
                               width: 180,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: isOverdue
-                                    ? Colors.red.withOpacity(0.2)
-                                    : AppColors.theme['green'].withOpacity(0.2),
+                                color: widget.homework.mark == null
+                                    ?(isOverdue ? Colors.red.withOpacity(0.2) :  Colors.orange.withOpacity(0.2))
+                                    :AppColors.theme['green'].withOpacity(0.2)
                               ),
                               child: Center(
                                 child: Text(
-                                  isOverdue ? "Overdue" : "Not Overdue",
+                                  widget.homework.mark == null
+                                      ? (isOverdue ? "Overdue" : "Not Overdue")
+                                      : "Evaluated",
                                   style: TextStyle(
-                                    color: isOverdue
-                                        ? Colors.red
+                                    color: widget.homework.mark == null
+                                        ? (isOverdue ? Colors.red : Colors.orange)
                                         : AppColors.theme['green'],
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -135,8 +122,9 @@ class _HomeworkCardState extends State<HomeworkCard> {
                               ),
                             ),
                             InkWell(
-                              onTap: (){
-
+                              onTap: widget.homework.mark != null
+                                  ? null
+                                  : () {
                                 TextEditingController linkController = TextEditingController();
                                 showDialog(
                                   context: context,
@@ -177,24 +165,31 @@ class _HomeworkCardState extends State<HomeworkCard> {
                                         ),
                                         TextButton(
                                           onPressed: () async {
-                                            String driveLink = linkController.text;
-                                            if (driveLink.isNotEmpty) {
-                                              setState(() {
-                                                widget.homework.timeStampSubmissionDate = DateTime.now().millisecondsSinceEpoch.toString();
-                                                widget.homework.gDriveSubmissionUrl = driveLink;
-                                                widget.homework.isSubmitted = true;
+                                                  String driveLink = linkController.text;
+                                                  if (driveLink.isNotEmpty) {
+                                                    setState(() {
+                                                      widget.homework.timeStampSubmissionDate = DateTime.now().millisecondsSinceEpoch.toString();
+                                                      widget.homework.gDriveSubmissionUrl = driveLink;
+                                                      widget.homework.isSubmitted = true;
+                                                    });
 
-                                              });
+                                                    final res2 = await AiService.compareAnswers(refUrl, stdRndAns);
+                                                    if (res2 != null) {
+                                                      widget.homework.isSubmitted = true;
+                                                      widget.homework.mark = res2["similarity_score"] * 10;
+                                                    }
 
-                                              final res = await HomeworkService().updateHomework(widget.homework);
+                                                    final res = await HomeworkService().updateHomework(widget.homework);
 
-                                              HelperFunction.showToast(res.toString());
+                                                    print("#score: $res2");
 
-                                              Navigator.of(context).pop();
-                                            } else {
-                                              HelperFunction.showToast("Enter valid link");
-                                            }
-                                          },
+                                                    HelperFunction.showToast(res.toString());
+
+                                                    Navigator.of(context).pop();
+                                                  } else {
+                                                    HelperFunction.showToast("Enter valid link");
+                                                  }
+                                                },
                                           child: Text(
                                             "Upload",
                                             style: TextStyle(color: Colors.blue),
@@ -204,7 +199,6 @@ class _HomeworkCardState extends State<HomeworkCard> {
                                     );
                                   },
                                 );
-
                               },
                               child: Container(
                                 height: 40,
@@ -213,7 +207,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                                   color: AppColors.theme['offWhite'],
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Center(child: Text("Add Submission")),
+                                child: Center(child: Text("${widget.homework.mark?.toStringAsFixed(2) ?? 'Add Submission'}")),
                               ),
                             ),
                           ],
