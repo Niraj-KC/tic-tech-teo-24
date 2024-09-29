@@ -66,6 +66,15 @@ A personalized dashboard is available for both students and teachers, providing 
     
 </div>
 
+# Course Screen
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+    <!-- First Row -->
+    <img src="https://assets.leetcode.com/users/images/f701c803-5bfe-44b0-914a-c8c0b51acc82_1727609811.0174894.jpeg" alt="img2" width="32%" />
+    <img src="https://assets.leetcode.com/users/images/96afd57b-4c88-4010-8a48-440ede47ab84_1727609838.439835.jpeg" alt="img3" width="32%" />
+    <img src="https://assets.leetcode.com/users/images/3c2520e3-5765-4f22-aecf-19274854b0ed_1727609829.8812668.jpeg" alt="img4" width="32%" />
+    
+</div>
+
 # General Screen
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
     <img src="https://assets.leetcode.com/users/images/77418263-0f75-4a6e-8427-23b6a0ee6412_1727609509.7963517.jpeg" alt="img5" width="32%" />
