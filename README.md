@@ -43,7 +43,7 @@ Our project focuses on developing a **Customizable Classroom Management Tool** d
 
 ### 5. Customizable Dashboard
 A personalized dashboard is available for both students and teachers, providing an overview of progress, upcoming events, and notifications.
-#Teacher's Screen
+##Teacher's Screen
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
     <!-- First Row -->
     <img src="https://assets.leetcode.com/users/images/42408edc-0f3e-45ad-969b-7da92d470d24_1727537329.8275836.jpeg" alt="img2" width="32%" />
@@ -57,7 +57,7 @@ A personalized dashboard is available for both students and teachers, providing 
     <img src="https://assets.leetcode.com/users/images/f89eae11-701d-4eb1-80aa-26a7e8a93994_1727537330.4857228.jpeg" alt="img7" width="32%" />
 </div>
 
-#Student's Screen
+##Student's Screen
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
     <!-- First Row -->
     <img src="https://assets.leetcode.com/users/images/42408edc-0f3e-45ad-969b-7da92d470d24_1727537329.8275836.jpeg" alt="img2" width="32%" />
