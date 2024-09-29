@@ -61,7 +61,7 @@ class _CourseCardState extends State<CourseCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 100,
+                    height: 80,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: AppColors.theme['offWhite'],
@@ -86,7 +86,7 @@ class _CourseCardState extends State<CourseCard> {
                       children: [
                         Text(
                           widget.sub.name ?? "",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
                         ),
                         Text(widget.sub.courseCode ?? ""),
                       ],

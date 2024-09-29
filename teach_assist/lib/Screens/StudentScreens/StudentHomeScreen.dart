@@ -167,7 +167,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Container(
-                    height: 70,
+                    height: 90,
                     decoration: BoxDecoration(
                       color: AppColors.theme['offWhite'],
                       borderRadius: BorderRadius.circular(10),

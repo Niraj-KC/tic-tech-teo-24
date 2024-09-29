@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
 import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Models/Subject.dart';
+import 'package:teach_assist/Providers/CurrentUserProvider.dart';
 import 'package:teach_assist/Screens/TeacherScreens/AllCourses.dart';
 import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
 import 'package:teach_assist/Transitions/RightToLeft.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
 
+import '../../API/NotificationApi.dart';
 import '../../Components/EnrolledStudentCard.dart';
 import '../../Models/Student.dart';
 import '../../Utils/ThemeData/colors.dart';
@@ -48,19 +51,19 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return Consumer<CurrentUserProvider>(builder: (context,value,child){return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           leading: InkWell(
-            onTap: (){
-              Navigator.pushReplacement(context, RightToLeft(AllCourses()));
-            },
+              onTap: (){
+                Navigator.pushReplacement(context, RightToLeft(AllCourses()));
+              },
               child: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-            size: 28,
-          )),
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+                size: 28,
+              )),
           centerTitle: true,
           backgroundColor: AppColors.theme['green'],
           title: Text(
@@ -79,6 +82,10 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
             final res = await SubjectService()
                 .enrollStudents(widget.subject, _selectedStudents);
 
+            print("#name : ${value.user.name}") ;
+            await NotificationApi.sendPushNotification(_selectedStudents[0],value.user ,"You have been enrolled by ${value.user.name} in ${widget.subject.name}") ;
+            print("#sende");
+
             // _selectedStudents.forEach((selStudent) {
             //   _students.removeWhere((stud) => stud.id == selStudent.id);
             //   _students.add(selStudent);
@@ -93,12 +100,12 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
           },
           child: _isLoading
               ? const CircularProgressIndicator(
-                  color: Colors.white,
-                )
+            color: Colors.white,
+          )
               : const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
         backgroundColor: AppColors.theme['offWhite'],
         body: SafeArea(
@@ -120,50 +127,50 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                 Expanded(
                     child: SingleChildScrollView(
                         child: Column(
-                  // todo: add here stream builder of students that are enrolled in specific course
+                          // todo: add here stream builder of students that are enrolled in specific course
 
-                  children: [
-                    FutureBuilder(
-                      future: StudentService().getAllStudents(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        }
+                          children: [
+                            FutureBuilder(
+                              future: StudentService().getAllStudents(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                }
 
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        }
+                                if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                }
 
-                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Text('No subjects found');
-                        }
+                                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                  return const Text('No subjects found');
+                                }
 
-                        List<Student> students = snapshot.data!;
+                                List<Student> students = snapshot.data!;
 
-                        return Column(
-                          children: students
-                              .map((e) => EnrolledStudentCard(
+                                return Column(
+                                  children: students
+                                      .map((e) => EnrolledStudentCard(
                                     st: e,
                                     isEnrolled: (e.allocatedSubjects?.any(
                                             (element) =>
-                                                element.id ==
-                                                widget.subject.id) ??
+                                        element.id ==
+                                            widget.subject.id) ??
                                         false),
                                     addStudent: _addStudent,
                                     removeStudent: _removeStudent,
                                   ))
-                              .toList(),
-                        );
-                      },
-                    )
-                  ],
-                )))
+                                      .toList(),
+                                );
+                              },
+                            )
+                          ],
+                        )))
               ],
             ),
           ),
         ),
       ),
-    );
+    );}) ;
   }
 }

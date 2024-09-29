@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:teach_assist/API/FirebaseAuthentication/AppFirebaseAuth.dart';
@@ -97,6 +99,18 @@ class StudentService {
     } catch (e) {
       print('Error updating student: $e');
     }
+  }
+
+   Future<bool> updateUserProfile(String? userId, Map<String, dynamic> fields) async {
+    return await studentCollection.doc("$userId").update(fields)
+        .then((value) {
+      log("#updated donne");
+      return true;
+    })
+        .onError((error, stackTrace) {
+      log("#update-e: $error, $stackTrace");
+      return false;
+    });
   }
 
   // Delete Student
