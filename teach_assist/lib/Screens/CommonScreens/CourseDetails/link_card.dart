@@ -6,7 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 class LinkCard extends StatefulWidget {
   final String text;
   final String url;
-  const LinkCard({super.key, required this.text, required this.url});
+
+  const LinkCard({super.key, required this.text, required this.url, });
 
   @override
   State<LinkCard> createState() => _LinkCardState();
@@ -27,7 +28,7 @@ class _LinkCardState extends State<LinkCard> {
       child: Row(
         children: [
           SizedBox(width: 20,),
-          Image.asset("assets/images/pdf_icon.png",height: 50,width:50 ,),
+          Image.asset("assets/images/pdf_icon.png",height: 40,width:40 ),
           SizedBox(width: 20,),
           InkWell(
             onTap: (){
