@@ -29,21 +29,11 @@ class _AddHomeworkScreenState extends State<AddHomeworkScreen> {
   DateTime? _selectedDueDate;
   List<Map<String, String>> _subjects = []; // List to store subject IDs and names
 
-  @override
-  void initState() {
-    super.initState();
-    _courseIds = (Provider.of<CurrentUserProvider>(context, listen: false).user as Teacher).subjects?.map((e) => e.toString()).toSet().toList() ?? [];
-  }
 
-  Future<List<Map<String, String>>> _fetchSubjects() async {
-    var teacher = Provider.of<CurrentUserProvider>(context, listen: false).user as Teacher;
-    // Fetch subjects from Firebase based on teacher's subjects IDs
-    // Assuming `fetchSubjectsByIds` is a method that retrieves subjects based on IDs
-    List<Map<String, String>> subjects = await fetchSubjectsByIds(teacher.subjects ?? []);
-    return subjects;
-  }
 
-  Future<List<Map<String, String>>> fetchSubjectsByIds(List<String> subjectIds) async {
+  Future<List<Map<String, String>>> fetchSubjectsByIds(List<String>? subjectIds) async {
+    if(subjectIds == null) return [];
+
     List<Map<String, String>> subs = [];
     for(int i=0; i<subjectIds.length; i++){
       Subject? sub = await SubjectService().getSubjectById(subjectIds[i]);
@@ -78,7 +68,6 @@ class _AddHomeworkScreenState extends State<AddHomeworkScreen> {
   void _clearFields() {
     _linkController.clear();
     _nameController.clear();
-    _courseNameController.clear();
     _referenceLinkController.clear();
     setState(() {
       _selectedCourseId = null;
@@ -134,91 +123,136 @@ class _AddHomeworkScreenState extends State<AddHomeworkScreen> {
           style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomTextField(
-                hintText: "Enter homework title",
-                isNumber: false,
-                prefixicon: Icon(Icons.title),
-                obsecuretext: false,
-                controller: _nameController,
-              ),
-              const SizedBox(height: 5),
-              CustomTextField(
-                hintText: "Enter course name",
-                prefixicon: Icon(Icons.drive_file_rename_outline_outlined),
-                isNumber: false,
-                obsecuretext: false,
-                controller: _courseNameController,
-              ),
-              const SizedBox(height: 5),
-              CustomTextField(
-                hintText: "Enter GDrive Link for questions",
-                isNumber: false,
-                prefixicon: Icon(Icons.drive_file_rename_outline_outlined),
-                obsecuretext: false,
-                controller: _linkController,
-              ),
-              const SizedBox(height: 5),
-              CustomTextField(
-                hintText: "Enter GDrive Link for reference answers",
-                isNumber: false,
-                prefixicon: Icon(Icons.drive_file_rename_outline_outlined),
-                obsecuretext: false,
-                controller: _referenceLinkController,
-              ),
-              const SizedBox(height: 10),
-              Container(
-                height: 50,width: 345,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.numbers_sharp),
-                    labelText: 'Select Course ID',
-                    labelStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.black.withOpacity(0.5)),
-                    filled: true,
-                    fillColor: Colors.white,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none, // No border when enabled
-                    disabledBorder: InputBorder.none, // No border when disabled
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 14), // Adjust height by changing vertical padding
+      body: Consumer<CurrentUserProvider>(
+          builder: (context, curUserProvider, child){
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    CustomTextField(
+                      hintText: "Enter homework title",
+                      isNumber: false,
+                      prefixicon: Icon(Icons.title),
+                      obsecuretext: false,
+                      controller: _nameController,
+                    ),
+                    const SizedBox(height: 5),
+
+                    CustomTextField(
+                      hintText: "Enter GDrive Link for questions",
+                      isNumber: false,
+                      prefixicon: Icon(Icons.drive_file_rename_outline_outlined),
+                      obsecuretext: false,
+                      controller: _linkController,
+                    ),
+                    const SizedBox(height: 5),
+                    CustomTextField(
+                      hintText: "Enter GDrive Link for reference answers",
+                      isNumber: false,
+                      prefixicon: Icon(Icons.drive_file_rename_outline_outlined),
+                      obsecuretext: false,
+                      controller: _referenceLinkController,
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Container(
+                    //   height: 50,width: 345,
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(10),
+                    //   ),
+                    //   child: DropdownButtonFormField<String>(
+                    //     decoration: InputDecoration(
+                    //       labelText: 'Select Course',
+                    //       labelStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //       focusedBorder: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: AppColors.theme['green']),
+                    //         borderRadius: BorderRadius.circular(10),
+                    //       ),
+                    //       enabledBorder: InputBorder.none,
+                    //     ),
+                    //     value: _selectedCourseId,
+                    //     items: _subjects.map((Map<String, String> subject) {
+                    //       print("#sub : ${_subjects[0]}");
+                    //       return DropdownMenuItem<String>(
+                    //         value: subject['id'],
+                    //         child: Text(subject['name']!),
+                    //       );
+                    //     }).toList(),
+                    //     onChanged: (String? newValue) {
+                    //       setState(() {
+                    //         _selectedCourseId = newValue;
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
+
+                  Container(
+                    height: 100,
+                    width: 345,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: FutureBuilder<List<Map<String, String>>>(
+                      future: fetchSubjectsByIds((curUserProvider.user as Teacher).subjects), // Your future function call
+                      builder: (BuildContext context, AsyncSnapshot<List<Map<String, String>>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator()); // Show loader while waiting
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return Text('No subjects available');
+                        } else {
+                          // Data fetched successfully, now build the DropdownButtonFormField
+                          List<Map<String, String>> subjects = snapshot.data!;
+                          return DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              labelText: 'Select Course',
+                              labelStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                              filled: true,
+                              fillColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: AppColors.theme['green']),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              enabledBorder: InputBorder.none,
+                            ),
+                            value: _selectedCourseId,
+                            items: subjects.map((Map<String, String> subject) {
+                              return DropdownMenuItem<String>(
+                                value: subject['id'],
+                                child: Text(subject['name']!),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedCourseId = newValue;
+                              });
+                            },
+                          );
+                        }
+                      },
+                    ),
                   ),
-                  value: _selectedCourseId,
-                  items: _courseIds.map((String courseId) {
-                    return DropdownMenuItem<String>(
-                      value: courseId,
-                      child: Text(courseId),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedCourseId = newValue;
-                    });
-                  },
-                  isExpanded: true,
+
+                  const SizedBox(height: 10),
+                    _buildDueDatePicker(context),
+                    const SizedBox(height: 20),
+                    AuthButton(onpressed: ()async{
+                      Homework? hw = _addHomework();
+                      if (hw != null) {
+                        await HomeworkService().postHomeworkForCourse(hw);
+                        Navigator.pop(context, hw); // Pass back the homework to the previous screen
+                      }
+                    }, name: "Submit", bcolor:AppColors.theme['green'], tcolor: AppColors.theme['white'], isLoading:false)
+                  ],
                 ),
               ),
-
-
-              const SizedBox(height: 10),
-              _buildDueDatePicker(context),
-              const SizedBox(height: 20),
-              AuthButton(onpressed: ()async{
-                Homework? hw = _addHomework();
-                if (hw != null) {
-                  await HomeworkService().addHomework(hw);
-                  Navigator.pop(context, hw);
-                }
-              }, name: "Submit", bcolor:AppColors.theme['green'], tcolor: AppColors.theme['white'], isLoading:false)
-            ],
-          ),
-        ),
-      ),
+            );
+          }
+        )
     );
   }
 }
