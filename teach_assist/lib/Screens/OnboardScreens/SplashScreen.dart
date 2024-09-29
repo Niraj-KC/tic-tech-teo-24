@@ -9,6 +9,7 @@ import 'package:teach_assist/Models/Teacher.dart';
 import 'package:teach_assist/Providers/CurrentUserProvider.dart';
 import 'package:teach_assist/Screens/StudentScreens/StudentHomeScreen.dart';
 import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
+import '../../API/NotificationApi.dart';
 import '../../Transitions/LeftToRight.dart';
 import '../../Utils/ThemeData/colors.dart';
 import '../../main.dart';
@@ -43,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
         print("User: $user");
         if (user.runtimeType == Student) {
           Provider.of<CurrentUserProvider>(context, listen: false).user = user;
+          await NotificationApi.getFirebaseMessagingToken(user!.id!);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const StudentHomeScreen()));
         }
       }
@@ -102,7 +104,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: mq.width * 0.2),
                     child: Text(
-                      "ClassOrbit",
+                      "EduFlow",
                       style: TextStyle(
                           color: AppColors.theme['black'],
                           fontSize:25,fontWeight: FontWeight.bold),

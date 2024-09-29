@@ -7,7 +7,8 @@ class Student {
       this.name, 
       this.rollNo, 
       this.currentSem, 
-      this.departmentId, 
+      this.departmentId,
+      this.notificationToken,
       this.allocatedSubjects,});
 
   // Create a Student object from JSON data
@@ -17,6 +18,7 @@ class Student {
     rollNo = json['rollNo'] as String?;
     currentSem = json['currentSem'] as String?;
     departmentId = json['departmentId'] as String?;
+    notificationToken = json['notificationToken'] as String ? ;
 
     // Convert the allocatedSubjects list if present
     if (json['allocatedSubjects'] != null) {
@@ -32,6 +34,7 @@ class Student {
   String? currentSem;
   String? departmentId;
   List<AllocatedSubjects>? allocatedSubjects;
+  String? notificationToken;
 
   // Convert Student object to JSON
   Map<String, dynamic> toJson() {
@@ -41,6 +44,7 @@ class Student {
     map['rollNo'] = rollNo;
     map['currentSem'] = currentSem;
     map['departmentId'] = departmentId;
+    map['notificationToken'] = notificationToken;
 
     // Convert allocatedSubjects list to JSON if not null
     if (allocatedSubjects != null) {

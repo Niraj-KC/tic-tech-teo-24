@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
+import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
+import 'package:teach_assist/Models/Student.dart';
 import 'package:teach_assist/Models/Teacher.dart';
 
 import '../../Models/Subject.dart';
@@ -99,4 +102,24 @@ class TeacherService {
       yield [];
     }
   }
+
+  Future<List<Student>> getAllStudent(Teacher teacher) async {
+    List<Student> students = [];
+    teacher.subjects ??= [];
+
+    for(int i=0; i<teacher.subjects!.length; i++) {
+      Subject? sub = await SubjectService().getSubjectById(teacher.subjects![i]);
+
+      if(sub != null){
+        sub.studentsEnrolled ??= [];
+
+        for(int j=0; j<sub.studentsEnrolled!.length; j++){
+          Student? std = await StudentService().getStudentById(sub.studentsEnrolled![j]);
+          if(std != null) students.add(std);
+        }
+      }
+    }
+    return students;
+  }
+
 }

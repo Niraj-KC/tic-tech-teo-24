@@ -18,9 +18,11 @@ import '../../Components/CourseCard.dart';
 import '../../Components/QuickAccessCard.dart';
 import '../../Models/Teacher.dart';
 import '../../main.dart';
+import 'AnnouncementScreen.dart';
 import 'Homework/AllCourseHomework.dart';
 import 'CreateNewStudent.dart';
 import 'IntroduceSubject.dart';
+import 'MyStudents.dart';
 import 'PostHomeWorks.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
@@ -256,6 +258,9 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
+                        onTap: (){
+                          Navigator.push(context, LeftToRight(AnnouncementScreen())) ;
+                        },
                         leading: Icon(Icons.notifications_active_outlined),
                         title: Text(
                           "Make An Announcements",
@@ -302,6 +307,24 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                         leading: Icon(Icons.verified_user_rounded),
                         title: Text(
                           "Enrolled Students",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context, LeftToRight(const MyStudents()));
+                        },
+                        leading: Icon(Icons.group),
+                        title: Text(
+                          "My Students",
                           style: TextStyle(
                               color: AppColors.theme['black'].withOpacity(0.6),
                               fontWeight: FontWeight.bold,
