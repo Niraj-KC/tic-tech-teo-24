@@ -15,40 +15,9 @@ class UpcomingSubmissionScreen extends StatefulWidget {
 }
 
 class _UpcomingSubmissionScreenState extends State<UpcomingSubmissionScreen> {
-  List<Homework> dummyHomeworkData = [
-    Homework(
-      title: 'Math Homework 1',
-      courseId: 'MATH101',
-      courseName: 'Calculus I',
-      id: 'HW001',
-      gDriveQuestionUrl: 'https://drive.google.com/sample-question-url-1',
-      gDriveReferenceAnswerUrl: 'https://drive.google.com/sample-reference-url-1',
-      timeStampCreated: '2024-09-25 10:00:00',
-      timeStampDueDate: '2024-10-01 23:59:59',
-    ),
-    Homework(
-      title: 'Physics Homework 2',
-      courseId: 'PHYS201',
-      courseName: 'Classical Mechanics',
-      id: 'HW002',
-      gDriveQuestionUrl: 'https://drive.google.com/sample-question-url-2',
-      gDriveReferenceAnswerUrl: 'https://drive.google.com/sample-reference-url-2',
-      timeStampCreated: '2024-09-26 12:30:00',
-      timeStampDueDate: '2024-10-03 23:59:59',
-    ),
-    Homework(
-      title: 'Chemistry Homework 3',
-      courseId: 'CHEM101',
-      courseName: 'Organic Chemistry',
-      id: 'HW003',
-      gDriveQuestionUrl: 'https://drive.google.com/sample-question-url-3',
-      gDriveReferenceAnswerUrl: 'https://drive.google.com/sample-reference-url-3',
-      timeStampCreated: '2024-09-27 14:15:00',
-      timeStampDueDate: '2024-10-05 23:59:59',
-    ),
-  ];
 
-@override
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -72,7 +41,7 @@ class _UpcomingSubmissionScreenState extends State<UpcomingSubmissionScreen> {
                     SizedBox(height: 20,),
 
                     Column(
-                      children: dummyHomeworkData.where((hw) => !hw.isSubmitted).map((e) => HomeworkCard(homework: e)).toList(),
+                      // children: dummyHomeworkData.where((hw) => !hw.isSubmitted).map((e) => HomeworkCard(homework: e)).toList(),
                     )
 
                   ],

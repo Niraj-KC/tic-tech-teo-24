@@ -59,7 +59,6 @@ class AllocatedSubjects {
   AllocatedSubjects({
     this.id,
     this.quizList,
-    this.homeworkList,
   });
 
   // Create an AllocatedSubjects object from JSON data
@@ -73,17 +72,10 @@ class AllocatedSubjects {
           .toList();
     }
 
-    // Convert the homeworkList if present
-    if (json['homeworkList'] != null) {
-      homeworkList = (json['homeworkList'] as List)
-          .map((v) => Homework.fromJson(v as Map<String, dynamic>))
-          .toList();
-    }
   }
 
   String? id;
   List<Quiz>? quizList;
-  List<Homework>? homeworkList;
 
   // Convert AllocatedSubjects object to JSON
   Map<String, dynamic> toJson() {
@@ -95,10 +87,6 @@ class AllocatedSubjects {
       map['quizList'] = quizList?.map((v) => v.toJson()).toList();
     }
 
-    // Convert homeworkList to JSON if not null
-    if (homeworkList != null) {
-      map['homeworkList'] = homeworkList?.map((v) => v.toJson()).toList();
-    }
     return map;
   }
 }

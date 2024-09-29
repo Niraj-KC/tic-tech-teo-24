@@ -175,32 +175,4 @@ class StudentService {
     }
   }
 
-  // Get Stream of Homework for a Student based on AllocatedSubjects
-  Stream<List<Homework>> getHomeworkListForStudent(Student student) async* {
-    try {
-      // Check if the student has allocated subjects
-      if (student.allocatedSubjects == null || student.allocatedSubjects!.isEmpty) {
-        yield [];
-        return;
-      }
-
-      // Create a list to hold all homework from each subject
-      List<Homework> allHomework = [];
-
-      // Loop through each allocated subject
-      for (AllocatedSubjects allocatedSubject in student.allocatedSubjects!) {
-        // Check if the subject has homework
-        if (allocatedSubject.homeworkList != null) {
-          // Add all homework from this subject to the combined homework list
-          allHomework.addAll(allocatedSubject.homeworkList!);
-        }
-      }
-
-      // Return the combined homework list
-      yield allHomework;
-    } catch (e) {
-      print('Error getting homework list: $e');
-      yield [];
-    }
-  }
 }
