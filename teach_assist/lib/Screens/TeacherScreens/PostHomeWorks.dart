@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:teach_assist/Models/Homework.dart';
 import 'package:teach_assist/Screens/TeacherScreens/AddHomeworkScreen.dart';
+import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
+import 'package:teach_assist/Transitions/LeftToRight.dart';
+import 'package:teach_assist/Transitions/RightToLeft.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 
 class PostHomeWorks extends StatefulWidget {
@@ -32,7 +35,9 @@ class _PostHomeWorksState extends State<PostHomeWorks> {
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, RightToLeft(TeacherHomeScreen())) ;
+              },
               icon: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 color: Colors.white,
