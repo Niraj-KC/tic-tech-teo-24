@@ -43,7 +43,7 @@ Our project focuses on developing a **Customizable Classroom Management Tool** d
 
 ### 5. Customizable Dashboard
 A personalized dashboard is available for both students and teachers, providing an overview of progress, upcoming events, and notifications.
-
+#Teacher's Screen
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
     <!-- First Row -->
     <img src="https://assets.leetcode.com/users/images/42408edc-0f3e-45ad-969b-7da92d470d24_1727537329.8275836.jpeg" alt="img2" width="32%" />
@@ -57,6 +57,19 @@ A personalized dashboard is available for both students and teachers, providing 
     <img src="https://assets.leetcode.com/users/images/f89eae11-701d-4eb1-80aa-26a7e8a93994_1727537330.4857228.jpeg" alt="img7" width="32%" />
 </div>
 
+#Student's Screen
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+    <!-- First Row -->
+    <img src="https://assets.leetcode.com/users/images/42408edc-0f3e-45ad-969b-7da92d470d24_1727537329.8275836.jpeg" alt="img2" width="32%" />
+    <img src="https://assets.leetcode.com/users/images/f237f477-0110-4ebc-b25f-24c4c9491bb2_1727537330.0615456.jpeg" alt="img3" width="32%" />
+    <img src="https://assets.leetcode.com/users/images/670ffbe3-66cb-4186-85b3-02407e52d873_1727537330.156631.jpeg" alt="img4" width="32%" />
+    
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+<img src="https://assets.leetcode.com/users/images/1c774adb-8945-4ebc-8b20-cd758282c63e_1727537330.2552488.jpeg" alt="img5" width="32%" />
+    <img src="https://assets.leetcode.com/users/images/867bf085-9c24-494b-813f-44e239315637_1727537330.4748924.jpeg" alt="img6" width="32%" />
+    <img src="https://assets.leetcode.com/users/images/f89eae11-701d-4eb1-80aa-26a7e8a93994_1727537330.4857228.jpeg" alt="img7" width="32%" />
+</div>
 
 
 ### 6. Student Profile & Resource Suggestions
