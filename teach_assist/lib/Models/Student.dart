@@ -1,34 +1,32 @@
+import 'package:teach_assist/Models/Homework.dart';
 import 'package:teach_assist/Models/Quiz.dart';
-
-/// id : "12345"
-/// name : "John"
-/// rollNo : "22cse209"
-/// currentSem : "3"
-/// departmentId : "CSE001"
-/// allocatedSubjects : [{"courseCode":"DS101","quizList":[{"courseCode":"DS101","id":"QZ002","startDateTime":1633104000000,"endDateTime":1633107600000,"totalMarks":50,"marksOptained":50}]}]
 
 class Student {
   Student({
-      this.id, 
-      this.name, 
-      this.rollNo, 
-      this.currentSem, 
-      this.departmentId, 
-      this.allocatedSubjects,});
+    this.id,
+    this.name,
+    this.rollNo,
+    this.currentSem,
+    this.departmentId,
+    this.allocatedSubjects,
+  });
 
-  Student.fromJson(dynamic json)   {
-    id = json['id'];
-    name = json['name'];
-    rollNo = json['rollNo'];
-    currentSem = json['currentSem'];
-    departmentId = json['departmentId'];
+  // Create a Student object from JSON data
+  Student.fromJson(Map<String, dynamic> json) {
+    id = json['id'] as String?;
+    name = json['name'] as String?;
+    rollNo = json['rollNo'] as String?;
+    currentSem = json['currentSem'] as String?;
+    departmentId = json['departmentId'] as String?;
+
+    // Convert the allocatedSubjects list if present
     if (json['allocatedSubjects'] != null) {
-      allocatedSubjects = [];
-      json['allocatedSubjects'].forEach((v) {
-        allocatedSubjects?.add(AllocatedSubjects.fromJson(v));
-      });
+      allocatedSubjects = (json['allocatedSubjects'] as List)
+          .map((v) => AllocatedSubjects.fromJson(v as Map<String, dynamic>))
+          .toList();
     }
   }
+
   String? id;
   String? name;
   String? rollNo;
@@ -36,6 +34,7 @@ class Student {
   String? departmentId;
   List<AllocatedSubjects>? allocatedSubjects;
 
+  // Convert Student object to JSON
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
@@ -43,6 +42,8 @@ class Student {
     map['rollNo'] = rollNo;
     map['currentSem'] = currentSem;
     map['departmentId'] = departmentId;
+
+    // Convert allocatedSubjects list to JSON if not null
     if (allocatedSubjects != null) {
       map['allocatedSubjects'] = allocatedSubjects?.map((v) => v.toJson()).toList();
     }
@@ -50,40 +51,55 @@ class Student {
   }
 
   @override
-  String toString(){
+  String toString() {
     return "$name [$rollNo]";
   }
-
 }
 
-/// courseCode : "DS101"
-/// quizList : [{"courseCode":"DS101","id":"QZ002","startDateTime":1633104000000,"endDateTime":1633107600000,"totalMarks":50,"marksOptained":50}]
+class AllocatedSubjects {
+  AllocatedSubjects({
+    this.id,
+    this.quizList,
+    this.homeworkList,
+  });
 
-  class AllocatedSubjects {
-    AllocatedSubjects({
-        this.id,
-        this.quizList,});
+  // Create an AllocatedSubjects object from JSON data
+  AllocatedSubjects.fromJson(Map<String, dynamic> json) {
+    id = json['id'] as String?;
 
-    AllocatedSubjects.fromJson(dynamic json) {
-      id = json['id'];
-      if (json['quizList'] != null) {
-        quizList = [];
-        json['quizList'].forEach((v) {
-          quizList?.add(Quiz.fromJson(v));
-        });
-      }
-    }
-    String? id;
-    List<Quiz>? quizList;
-
-    Map<String, dynamic> toJson() {
-      final map = <String, dynamic>{};
-      map['id'] = id;
-      if (quizList != null) {
-        map['quizList'] = quizList?.map((v) => v.toJson()).toList();
-      }
-      return map;
+    // Convert the quizList if present
+    if (json['quizList'] != null) {
+      quizList = (json['quizList'] as List)
+          .map((v) => Quiz.fromJson(v as Map<String, dynamic>))
+          .toList();
     }
 
+    // Convert the homeworkList if present
+    if (json['homeworkList'] != null) {
+      homeworkList = (json['homeworkList'] as List)
+          .map((v) => Homework.fromJson(v as Map<String, dynamic>))
+          .toList();
+    }
   }
 
+  String? id;
+  List<Quiz>? quizList;
+  List<Homework>? homeworkList;
+
+  // Convert AllocatedSubjects object to JSON
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+
+    // Convert quizList to JSON if not null
+    if (quizList != null) {
+      map['quizList'] = quizList?.map((v) => v.toJson()).toList();
+    }
+
+    // Convert homeworkList to JSON if not null
+    if (homeworkList != null) {
+      map['homeworkList'] = homeworkList?.map((v) => v.toJson()).toList();
+    }
+    return map;
+  }
+}

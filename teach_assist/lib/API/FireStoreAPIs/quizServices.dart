@@ -5,7 +5,7 @@ class QuizService {
   final CollectionReference quizCollection =
   FirebaseFirestore.instance.collection('quizzes');
   final CollectionReference studentCollection =
-  FirebaseFirestore.instance.collection('student');
+  FirebaseFirestore.instance.collection('students');
 
   // Create a new quiz document
   Future<void> addQuiz(Quiz quiz) async {

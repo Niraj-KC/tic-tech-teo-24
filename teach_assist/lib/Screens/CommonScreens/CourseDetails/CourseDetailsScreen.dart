@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Screens/CommonScreens/CourseDetails/link_card.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
@@ -90,9 +91,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
   Widget buildStudentTabContent() {
+    print("#CP: ${widget.sub.coursePolicy}");
     switch (selectedTab) {
       case "Course Policy":
-        return widget.sub.coursePolicy!.isEmpty
+        return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
             ? Center(
                 child: Text(
                   "Not uploaded yet",
@@ -129,9 +131,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   }
 
   Widget buildTeacherTabContent() {
+
+    print("#CP: ${widget.sub.coursePolicy}");
     switch (selectedTab) {
       case "Course Policy":
-        return widget.sub.coursePolicy != null && widget.sub.coursePolicy!.isEmpty
+        return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
             ? Center(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: mq.height * 0.3),
@@ -188,6 +192,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                                         setState(() {
                                           widget.sub.coursePolicy = driveLink;
                                         });
+
+                                        SubjectService().updateCoursePolicy(widget.sub.id!, driveLink);
                                         Navigator.of(context).pop();
                                       } else {
                                         HelperFunction.showToast("Enter valid link");
