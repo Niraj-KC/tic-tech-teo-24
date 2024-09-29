@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' ;
+import 'package:teach_assist/Models/Homework.dart';
 import 'package:teach_assist/Screens/TeacherScreens/Homework/StudentList.dart';
 import 'package:teach_assist/Transitions/LeftToRight.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
@@ -49,7 +50,9 @@ class _HomeWorkScreenState extends State<HomeWorkScreen> {
               //todo:fetch all homeworks  of subject like 1,2,3,4,5..etc
               //and display using below card
 
-              HomeWorkCard(onTap: () {
+              HomeWorkCard(
+                homework: Homework(),
+                onTap: () {
                 Navigator.push(context, LeftToRight(StudentList()));
               },),
 

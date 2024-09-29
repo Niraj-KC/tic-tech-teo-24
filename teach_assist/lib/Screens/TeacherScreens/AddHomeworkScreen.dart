@@ -64,8 +64,8 @@ class _AddHomeworkScreenState extends State<AddHomeworkScreen> {
       courseName: _subjects.firstWhere((subject) => subject['id'] == _selectedCourseId!)['name'] ?? '',
       gDriveQuestionUrl: _linkController.text,
       gDriveReferenceAnswerUrl: _referenceLinkController.text,
-      timeStampCreated: DateTime.now().toString(),
-      timeStampDueDate: _selectedDueDate!.toString(),
+      timeStampCreated: DateTime.now().millisecondsSinceEpoch.toString(),
+      timeStampDueDate: _selectedDueDate!.millisecondsSinceEpoch.toString(),
     );
 
     return homework;

@@ -63,12 +63,14 @@ class HomeworkService {
   }
 
   // Update an existing Homework in Firestore
-  Future<void> updateHomework(Homework homework) async {
+  Future<String> updateHomework(Homework homework) async {
     try {
       await homeworkCollection.doc(homework.id).update(homework.toJson());
       print("Homework updated successfully.");
+      return "Homework updated successfully.";
     } catch (e) {
       print("Failed to update homework: $e");
+      return "Failed to update homework";
     }
   }
 
@@ -83,9 +85,8 @@ class HomeworkService {
   }
 
 
-  // Get Stream of Homework for a Student grouped by Course
-  Stream<Map<String, List<Homework>>> getHomeworkListForStudentGroupedByCourse(
-      Student student) async* {
+// Assuming you have a Course model and collection to fetch course names
+  Stream<Map<String, Map<String, List<Homework>>>> getHomeworkListForStudentGroupedByCourse(Student student) async* {
     try {
       // Query homework for a specific student
       Stream<QuerySnapshot> snapshotStream = homeworkCollection
@@ -97,7 +98,7 @@ class HomeworkService {
           return Homework.fromJson(doc.data() as Map<String, dynamic>, doc.id);
         }).toList();
 
-        // Group homework by courseId
+        // Group homework by courseId first
         Map<String, List<Homework>> groupedByCourse = {};
         for (var homework in homeworkList) {
           if (groupedByCourse.containsKey(homework.courseId)) {
@@ -107,8 +108,31 @@ class HomeworkService {
           }
         }
 
+        // Now we need to fetch course names based on courseId
+        Map<String, Map<String, List<Homework>>> groupedByCourseNameAndTitle = {};
+        for (var entry in groupedByCourse.entries) {
+          String courseId = entry.key;
+          List<Homework> homeworks = entry.value;
+
+          // Fetch the course name using the courseId
+          String? courseName = (await SubjectService().getSubjectById(courseId))?.name; // You'll need to implement this method
+
+          // Group homework by title
+          Map<String, List<Homework>> groupedByTitle = {};
+          for (var homework in homeworks) {
+            if (groupedByTitle.containsKey(homework.title)) {
+              groupedByTitle[homework.title]!.add(homework);
+            } else {
+              groupedByTitle[homework.title!] = [homework];
+            }
+          }
+
+          // Assign grouped data to the final map
+          groupedByCourseNameAndTitle[courseName??""] = groupedByTitle;
+        }
+
         // Yield the grouped data
-        yield groupedByCourse;
+        yield groupedByCourseNameAndTitle;
       }
     } catch (e) {
       print('Error getting homework list: $e');
@@ -116,9 +140,11 @@ class HomeworkService {
     }
   }
 
-  // Get Stream of Homework for a Teacher based on the courses they teach
-  Stream<Map<String, List<Homework>>> getHomeworkListForTeacherGroupedByCourse(
-      Teacher teacher) async* {
+
+
+
+// Get Stream of Homework for a Teacher based on the courses they teach
+  Stream<Map<String, Map<String, List<Homework>>>> getHomeworkListForTeacherGroupedByCourse(Teacher teacher) async* {
     try {
       // Query homework for the courses taught by the teacher (in the subjects list)
       Stream<QuerySnapshot> snapshotStream = homeworkCollection
@@ -130,7 +156,7 @@ class HomeworkService {
           return Homework.fromJson(doc.data() as Map<String, dynamic>, doc.id);
         }).toList();
 
-        // Group homework by courseId
+        // Group homework by courseId first
         Map<String, List<Homework>> groupedByCourse = {};
         for (var homework in homeworkList) {
           if (groupedByCourse.containsKey(homework.courseId)) {
@@ -140,16 +166,37 @@ class HomeworkService {
           }
         }
 
+        // Now we need to fetch course names based on courseId
+        Map<String, Map<String, List<Homework>>> groupedByCourseNameAndTitle = {};
+        for (var entry in groupedByCourse.entries) {
+          String courseId = entry.key;
+          List<Homework> homeworks = entry.value;
+
+          // Fetch the course name using the courseId
+          String? courseName = (await SubjectService().getSubjectById(courseId))?.name; // You'll need to implement this method
+
+          // Group homework by title
+          Map<String, List<Homework>> groupedByTitle = {};
+          for (var homework in homeworks) {
+            if (groupedByTitle.containsKey(homework.title)) {
+              groupedByTitle[homework.title]!.add(homework);
+            } else {
+              groupedByTitle[homework.title!] = [homework];
+            }
+          }
+
+          // Assign grouped data to the final map
+          groupedByCourseNameAndTitle[courseName??""] = groupedByTitle;
+        }
+
         // Yield the grouped data
-        yield groupedByCourse;
+        yield groupedByCourseNameAndTitle;
       }
     } catch (e) {
       print('Error getting homework list for teacher: $e');
       yield {};
     }
   }
-
-
 
   // Post homework for each student enrolled in a course
   Future<void> postHomeworkForCourse(Homework homeworkTemplate) async {

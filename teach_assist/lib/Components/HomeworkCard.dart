@@ -186,7 +186,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
 
                                               });
 
-                                              final res = await HomeworkService().addHomework(widget.homework);
+                                              final res = await HomeworkService().updateHomework(widget.homework);
 
                                               HelperFunction.showToast(res.toString());
 

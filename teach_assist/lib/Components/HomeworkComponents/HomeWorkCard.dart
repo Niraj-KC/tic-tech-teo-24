@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:teach_assist/Models/Homework.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
 
 class HomeWorkCard extends StatefulWidget {
-
+  final Homework homework;
   //todo : model of homework/submission
   final VoidCallback onTap ;
 
-  const HomeWorkCard({super.key, required this.onTap});
+  const HomeWorkCard({super.key, required this.onTap, required this.homework});
 
   @override
   State<HomeWorkCard> createState() => _HomeWorkCardState();
@@ -32,7 +33,7 @@ class _HomeWorkCardState extends State<HomeWorkCard> {
                 backgroundImage: AssetImage("assets/images/hw.png"),
               ),
               tileColor: Colors.white,
-              title :Text("Homework 1",style: TextStyle(color: AppColors.theme['black'],fontWeight: FontWeight.bold,),
+              title :Text("${widget.homework.title}",style: TextStyle(color: AppColors.theme['black'],fontWeight: FontWeight.bold,),
             ),
           ),
           )
