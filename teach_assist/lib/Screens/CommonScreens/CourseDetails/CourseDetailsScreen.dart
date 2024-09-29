@@ -99,7 +99,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
 
 
     //for picking videos
-     Future<void> _pickVideo() async {
+    Future<void> _pickVideo() async {
       final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
 
       if (pickedFile != null) {
@@ -115,40 +115,40 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
       case "Course Policy":
         return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
             ? Center(
-                child: Text(
-                  "Not uploaded yet",
-                  style: TextStyle(color: AppColors.theme['black'].withOpacity(0.5), fontWeight: FontWeight.bold),
-                ),
-              )
+          child: Text(
+            "Not uploaded yet",
+            style: TextStyle(color: AppColors.theme['black'].withOpacity(0.5), fontWeight: FontWeight.bold),
+          ),
+        )
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Course Policy",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
-                ],
-              );
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Course Policy",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
+          ],
+        );
       case "Materials":
         return Container(
-          child:Column(
-            children: [
-              Row(
-                children: [
+            child:Column(
+              children: [
+                Row(
+                  children: [
 
-                ],
-              )
-            ],
-          )
+                  ],
+                )
+              ],
+            )
         );
 
       case "Home Work":
         return Container(
-           // todo:fetch here all home work for perticular course
+          // todo:fetch here all home work for perticular course
         );
       default:
         return Container();
@@ -162,103 +162,103 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
       case "Course Policy":
         return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
             ? Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: mq.height * 0.3),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Text(
-                          "Upload Course Policy",
-                          style: TextStyle(color: AppColors.theme['black'].withOpacity(0.5), fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          TextEditingController linkController = TextEditingController();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: AppColors.theme['offWhite'],
-                                title: Text(
-                                  "Upload Course Policy",
-                                  style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold, fontSize: 20),
-                                ),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "Please provide the Google Drive link for the course policy.",
-                                      style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 20),
-                                    CustomTextField(
-                                      hintText: "Google Drive Link",
-                                      isNumber: false,
-                                      obsecuretext: false,
-                                      controller: linkController,
-                                    ),
-                                  ],
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text(
-                                      "Cancel",
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      String driveLink = linkController.text;
-                                      if (driveLink.isNotEmpty) {
-                                        setState(() {
-                                          widget.sub.coursePolicy = driveLink;
-                                        });
-
-                                        SubjectService().updateCoursePolicy(widget.sub.id!, driveLink);
-                                        Navigator.of(context).pop();
-                                      } else {
-                                        HelperFunction.showToast("Enter valid link");
-                                      }
-                                    },
-                                    child: Text(
-                                      "Upload",
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          "Upload",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: mq.height * 0.3),
+            child: Column(
+              children: [
+                Center(
+                  child: Text(
+                    "Upload Course Policy",
+                    style: TextStyle(color: AppColors.theme['black'].withOpacity(0.5), fontWeight: FontWeight.bold),
                   ),
                 ),
-              )
+                InkWell(
+                  onTap: () {
+                    TextEditingController linkController = TextEditingController();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: AppColors.theme['offWhite'],
+                          title: Text(
+                            "Upload Course Policy",
+                            style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Please provide the Google Drive link for the course policy.",
+                                style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 20),
+                              CustomTextField(
+                                hintText: "Google Drive Link",
+                                isNumber: false,
+                                obsecuretext: false,
+                                controller: linkController,
+                              ),
+                            ],
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                String driveLink = linkController.text;
+                                if (driveLink.isNotEmpty) {
+                                  setState(() {
+                                    widget.sub.coursePolicy = driveLink;
+                                  });
+
+                                  SubjectService().updateCoursePolicy(widget.sub.id!, driveLink);
+                                  Navigator.of(context).pop();
+                                } else {
+                                  HelperFunction.showToast("Enter valid link");
+                                }
+                              },
+                              child: Text(
+                                "Upload",
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    "Upload",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Course Policy",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
-                ],
-              );
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Course Policy",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
+          ],
+        );
       case "Materials":
         return Container(
           child: Text(

@@ -3,6 +3,7 @@ import 'package:teach_assist/API/FireStoreAPIs/studentServices.dart';
 import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Models/Subject.dart';
+import 'package:teach_assist/Screens/TeacherScreens/AllCourses.dart';
 import 'package:teach_assist/Screens/TeacherScreens/TeacherHomeScreen.dart';
 import 'package:teach_assist/Transitions/RightToLeft.dart';
 import 'package:teach_assist/Utils/HelperFunctions/HelperFunction.dart';
@@ -53,7 +54,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
         appBar: AppBar(
           leading: InkWell(
             onTap: (){
-              Navigator.pushReplacement(context, RightToLeft(TeacherHomeScreen()));
+              Navigator.pushReplacement(context, RightToLeft(AllCourses()));
             },
               child: Icon(
             Icons.arrow_back_ios_new_rounded,

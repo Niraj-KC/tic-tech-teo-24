@@ -31,10 +31,18 @@ class _PostHomeWorksState extends State<PostHomeWorks> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+                size: 25,
+              )),
           backgroundColor: AppColors.theme['green'],
           title: const Text(
             "Home Works",
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -47,15 +55,15 @@ class _PostHomeWorksState extends State<PostHomeWorks> {
           child: _homeworks.isEmpty
               ? const Center(child: Text("No homeworks posted yet."))
               : ListView.builder(
-            itemCount: _homeworks.length,
-            itemBuilder: (context, index) {
-              final homework = _homeworks[index];
-              return ListTile(
-                title: Text(homework.title!),
-                subtitle: Text(homework.gDriveQuestionUrl!),
-              );
-            },
-          ),
+                  itemCount: _homeworks.length,
+                  itemBuilder: (context, index) {
+                    final homework = _homeworks[index];
+                    return ListTile(
+                      title: Text(homework.title!),
+                      subtitle: Text(homework.gDriveQuestionUrl!),
+                    );
+                  },
+                ),
         ),
       ),
     );
