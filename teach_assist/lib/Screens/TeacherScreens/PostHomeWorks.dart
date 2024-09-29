@@ -31,6 +31,7 @@ class _PostHomeWorksState extends State<PostHomeWorks> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
         debugShowCheckedModeBanner: false,
         home: Scaffold(
             appBar: AppBar(
@@ -94,5 +95,46 @@ class _PostHomeWorksState extends State<PostHomeWorks> {
                 );
               },
             )));
+=======
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+                size: 25,
+              )),
+          backgroundColor: AppColors.theme['green'],
+          title: const Text(
+            "Home Works",
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.theme['green'],
+          onPressed: _navigateToAddHomeworkScreen,
+          child: const Icon(Icons.add_box_rounded, color: Colors.white),
+        ),
+        backgroundColor: AppColors.theme['offWhite'],
+        body: SafeArea(
+          child: _homeworks.isEmpty
+              ? const Center(child: Text("No homeworks posted yet."))
+              : ListView.builder(
+                  itemCount: _homeworks.length,
+                  itemBuilder: (context, index) {
+                    final homework = _homeworks[index];
+                    return ListTile(
+                      title: Text(homework.title!),
+                      subtitle: Text(homework.gDriveQuestionUrl!),
+                    );
+                  },
+                ),
+        ),
+      ),
+    );
+>>>>>>> 7db43ebfa2354b78c1cf1f67947026eb44fd02c3
   }
 }
