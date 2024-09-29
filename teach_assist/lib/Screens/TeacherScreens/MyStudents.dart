@@ -50,14 +50,10 @@ class _MyStudentsState extends State<MyStudents> {
                 prefixicon: Icon(Icons.search_rounded),
               ),
             ),
-            Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  //todo:fetch all students
-                ],
-              ),
-            ))
+            // Expanded(
+            //
+            //  // todo :add here
+            // )
           ],
         ),
       ),

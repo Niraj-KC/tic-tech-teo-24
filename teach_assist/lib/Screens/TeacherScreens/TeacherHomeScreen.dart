@@ -8,7 +8,6 @@ import 'package:teach_assist/Providers/CurrentUserProvider.dart';
 import 'package:teach_assist/Screens/AuthScreens/LoginScreen.dart';
 import 'package:teach_assist/Screens/TeacherScreens/AllCourses.dart';
 
-import 'package:teach_assist/Screens/TeacherScreens/EnrolledStudents.dart';
 import 'package:teach_assist/Transitions/LeftToRight.dart';
 import 'package:teach_assist/Transitions/RightToLeft.dart';
 import 'package:teach_assist/Utils/ThemeData/colors.dart';
@@ -16,9 +15,10 @@ import 'package:teach_assist/Utils/ThemeData/colors.dart';
 import '../../API/FirebaseAPIs.dart';
 import '../../Components/CourseCard.dart';
 import '../../Components/QuickAccessCard.dart';
-import '../../Models/Teacher.dart';
 import '../../main.dart';
 import 'AnnouncementScreen.dart';
+import 'Attendance/GenerateLink.dart';
+import 'Attendance/session_history.dart';
 import 'Homework/AllCourseHomework.dart';
 import 'CreateNewStudent.dart';
 import 'IntroduceSubject.dart';
@@ -101,9 +101,28 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ListTile(
+                        onTap: (){
+                          Navigator.push(context, LeftToRight(GenerateAttendanceLink())) ;
+                        },
                         leading: Icon(Icons.mark_chat_read_outlined),
                         title: Text(
-                          "Take Attendance",
+                          "Generate Links",
+                          style: TextStyle(
+                              color: AppColors.theme['black'].withOpacity(0.6),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: ListTile(
+                        onTap: (){
+                          Navigator.push(context, LeftToRight(SessionHistory())) ;
+                        },
+                        leading: Icon(Icons.mark_chat_read_outlined),
+                        title: Text(
+                          "Lecture History",
                           style: TextStyle(
                               color: AppColors.theme['black'].withOpacity(0.6),
                               fontWeight: FontWeight.bold,
@@ -116,7 +135,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       child: ListTile(
                         leading: Icon(Icons.reviews_outlined),
                         title: Text(
-                          "Attendance Review",
+                          "Scheduled Lectures",
                           style: TextStyle(
                               color: AppColors.theme['black'].withOpacity(0.6),
                               fontWeight: FontWeight.bold,
