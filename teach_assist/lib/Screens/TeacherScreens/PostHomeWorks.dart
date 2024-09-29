@@ -33,17 +33,7 @@ class _PostHomeWorksState extends State<PostHomeWorks> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-
-
             appBar: AppBar(
-              leading: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Colors.white,
-                    size: 25,
-                  )),
-
               backgroundColor: AppColors.theme['green'],
               title: const Text(
                 "Home Works",

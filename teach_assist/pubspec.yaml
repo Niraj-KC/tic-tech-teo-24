@@ -53,10 +53,9 @@ dependencies:
   permission_handler:
   provider:
   intl: ^0.19.0
-  flutter_notification_channel: ^3.1.0
-  image_picker: ^1.1.2
+  flutter_notification_channel:
+  image_picker:
   file_picker:
-  path_provider:
 
 
 dev_dependencies:

@@ -45,9 +45,7 @@ class _AddHomeworkScreenState extends State<AddHomeworkScreen> {
   Homework? _addHomework() {
     if (_linkController.text.isEmpty ||
         _nameController.text.isEmpty ||
-        _selectedCourseId == null ||
-        _referenceLinkController.text.isEmpty ||
-        _selectedDueDate == null) {
+        _referenceLinkController.text.isEmpty) {
       print("Please fill out all fields.");
       return null;
     }
@@ -207,6 +205,7 @@ class _AddHomeworkScreenState extends State<AddHomeworkScreen> {
                         } else {
                           // Data fetched successfully, now build the DropdownButtonFormField
                           List<Map<String, String>> subjects = snapshot.data!;
+                          _subjects = subjects;
                           return DropdownButtonFormField<String>(
                             decoration: InputDecoration(
                               labelText: 'Select Course',
@@ -240,7 +239,8 @@ class _AddHomeworkScreenState extends State<AddHomeworkScreen> {
                   const SizedBox(height: 10),
                     _buildDueDatePicker(context),
                     const SizedBox(height: 20),
-                    AuthButton(onpressed: ()async{
+                    AuthButton(
+                        onpressed: ()async{
                       Homework? hw = _addHomework();
                       if (hw != null) {
                         await HomeworkService().postHomeworkForCourse(hw);

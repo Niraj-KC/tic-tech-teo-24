@@ -1,10 +1,7 @@
-import 'dart:io' as df;
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:teach_assist/API/AiApis/AiService.dart';
 import 'package:teach_assist/API/FireStoreAPIs/subjectServices.dart';
 import 'package:teach_assist/Components/CustomTextField.dart';
 import 'package:teach_assist/Screens/CommonScreens/CourseDetails/link_card.dart';
@@ -16,7 +13,8 @@ import '../../../main.dart';
 class CourseDetailScreen extends StatefulWidget {
   final Subject sub;
   final bool isStudent;
-  const CourseDetailScreen({super.key, required this.sub, required this.isStudent});
+  const CourseDetailScreen(
+      {super.key, required this.sub, required this.isStudent});
 
   @override
   State<CourseDetailScreen> createState() => _CourseDetailScreenState();
@@ -28,7 +26,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   bool isln = false; // is class notes selected
   String? _noteName;
   String selectedTab = "Course Policy";
-  df.File? _videoFile;
+  File? _videoFile;
 
   @override
   void initState() {
@@ -56,7 +54,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
 
       if (result != null) {
         setState(() {
-          _videoFile = df.File(result.files.single.path!);
+          _videoFile = File(result.files.single.path!);
         });
         final fileSize = _videoFile!.lengthSync();
         print("Selected video file size: ${fileSize / (1024 * 1024)} MB");
@@ -76,14 +74,16 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     TextEditingController noteNameController = TextEditingController();
 
     showDialog(
-      barrierDismissible: true,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: AppColors.theme['offWhite'],
           title: Text(
             "Enter Note Name",
-            style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(
+                color: AppColors.theme['black'],
+                fontWeight: FontWeight.bold,
+                fontSize: 20),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -94,6 +94,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                 obsecuretext: false,
                 controller: noteNameController,
               ),
+
             ],
           ),
           actions: <Widget>[
@@ -101,50 +102,29 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text(
+              child: Text(
                 "Cancel",
                 style: TextStyle(color: Colors.red),
               ),
             ),
             TextButton(
-              onPressed: () async {
+              onPressed: () {
                 String enteredName = noteNameController.text;
                 if (enteredName.isNotEmpty) {
                   setState(() {
                     _noteName = enteredName;
                   });
 
-                  Future.delayed(const Duration(seconds: 2), () {
+
+                  Future.delayed(Duration(seconds: 2), () {
+                    Navigator.of(context).pop();
                     HelperFunction.showToast("Notes generation started!");
                   });
-
-                  print("#Req-ai-v2n sent.");
-                  String? url = await AiService.processVideo(_videoFile!, enteredName);
-                  print("#ai-v2n sent processed.: $url");
-
-                  if(url != null){
-                    widget.sub.materials ??= [];
-                    widget.sub.materials!.add(url);
-                    await SubjectService().updateMaterial(widget.sub);
-                  }
-
-                  Future.delayed(const Duration(seconds: 2), () {
-                    Navigator.of(context).pop();
-                    HelperFunction.showToast("Notes generation Completed!");
-                  });
-
-                  //todo add notification
-
-                  setState(() {
-
-                  });
-
-
                 } else {
                   HelperFunction.showToast("Please enter a valid note name.");
                 }
               },
-              child: const Text(
+              child: Text(
                 "Upload",
                 style: TextStyle(color: Colors.blue),
               ),
@@ -169,32 +149,36 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
                 Container(
                   child: Text(
-                    (widget.sub.courseCode ?? "") + " - " + (widget.sub.name ?? ""),
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    (widget.sub.courseCode ?? "") +
+                        " - " +
+                        (widget.sub.name ?? ""),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _buildTab("Course Policy"),
-                    const SizedBox(width: 15),
+                    SizedBox(width: 15),
                     _buildTab("Materials"),
-                    const SizedBox(width: 15),
+                    SizedBox(width: 15),
                     _buildTab("Homework"),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: widget.isStudent ? buildStudentTabContent() : buildTeacherTabContent(),
+                  duration: Duration(milliseconds: 300),
+                  child: widget.isStudent
+                      ? buildStudentTabContent()
+                      : buildTeacherTabContent(),
                 ),
               ],
             ),
@@ -207,32 +191,36 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   Widget buildStudentTabContent() {
     switch (selectedTab) {
       case "Course Policy":
-        return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
+        return (widget.sub.coursePolicy == null ||
+            widget.sub.coursePolicy!.isEmpty)
             ? Center(
-                child: Text(
-                  "Not uploaded yet",
-                  style: TextStyle(color: AppColors.theme['black'].withOpacity(0.5), fontWeight: FontWeight.bold),
-                ),
-              )
+          child: Text(
+            "Not uploaded yet",
+            style: TextStyle(
+                color: AppColors.theme['black'].withOpacity(0.5),
+                fontWeight: FontWeight.bold),
+          ),
+        )
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Course Policy",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
-                ],
-              );
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Course Policy",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            LinkCard(
+                text: "Course Policy", url: widget.sub.coursePolicy ?? "")
+          ],
+        );
       case "Materials":
         return _buildMaterialsSection();
       case "Home Work":
         return Container(
-            // todo:fetch here all home work for particular course
-            );
+          // todo:fetch here all home work for particular course
+        );
       default:
         return Container();
     }
@@ -242,110 +230,126 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
     print("#CP: ${widget.sub.coursePolicy}");
     switch (selectedTab) {
       case "Course Policy":
-        return (widget.sub.coursePolicy == null || widget.sub.coursePolicy!.isEmpty)
+        return (widget.sub.coursePolicy == null ||
+            widget.sub.coursePolicy!.isEmpty)
             ? Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: mq.height * 0.3),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Text(
-                          "Upload Course Policy",
-                          style: TextStyle(color: AppColors.theme['black'].withOpacity(0.5), fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          TextEditingController linkController = TextEditingController();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: AppColors.theme['offWhite'],
-                                title: Text(
-                                  "Upload Course Policy",
-                                  style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold, fontSize: 20),
-                                ),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "Please provide the Google Drive link for the course policy.",
-                                      style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    CustomTextField(
-                                      hintText: "Google Drive Link",
-                                      isNumber: false,
-                                      obsecuretext: false,
-                                      controller: linkController,
-                                    ),
-                                  ],
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text(
-                                      "Cancel",
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      String driveLink = linkController.text;
-                                      if (driveLink.isNotEmpty) {
-                                        setState(() {
-                                          widget.sub.coursePolicy = driveLink;
-                                        });
-
-                                        SubjectService().updateCoursePolicy(widget.sub.id!, driveLink);
-                                        Navigator.of(context).pop();
-                                      } else {
-                                        HelperFunction.showToast("Enter valid link");
-                                      }
-                                    },
-                                    child: const Text(
-                                      "Upload",
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: const Text(
-                          "Upload",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: mq.height * 0.3),
+            child: Column(
+              children: [
+                Center(
+                  child: Text(
+                    "Upload Course Policy",
+                    style: TextStyle(
+                        color:
+                        AppColors.theme['black'].withOpacity(0.5),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-              )
+                InkWell(
+                  onTap: () {
+                    TextEditingController linkController =
+                    TextEditingController();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: AppColors.theme['offWhite'],
+                          title: Text(
+                            "Upload Course Policy",
+                            style: TextStyle(
+                                color: AppColors.theme['black'],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Please provide the Google Drive link for the course policy.",
+                                style: TextStyle(
+                                    color: AppColors.theme['black'],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 20),
+                              CustomTextField(
+                                hintText: "Google Drive Link",
+                                isNumber: false,
+                                obsecuretext: false,
+                                controller: linkController,
+                              ),
+                            ],
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                String driveLink =
+                                    linkController.text;
+                                if (driveLink.isNotEmpty) {
+                                  setState(() {
+                                    widget.sub.coursePolicy =
+                                        driveLink;
+                                  });
+
+                                  SubjectService().updateCoursePolicy(
+                                      widget.sub.id!, driveLink);
+                                  Navigator.of(context).pop();
+                                } else {
+                                  HelperFunction.showToast(
+                                      "Enter valid link");
+                                }
+                              },
+                              child: Text(
+                                "Upload",
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    "Upload",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Course Policy",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  LinkCard(text: "Course Policy", url: widget.sub.coursePolicy ?? "")
-                ],
-              );
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Course Policy",
+              style:
+              TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            LinkCard(
+                text: "Course Policy", url: widget.sub.coursePolicy ?? "")
+          ],
+        );
       case "Materials":
         return _buildMaterialsSection();
       case "Home Work":
         return Container(
-          child: const Text(
+          child: Text(
             "Home Work Content",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
@@ -358,123 +362,144 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   Widget _buildMaterialsSection() {
     return Container(
         child: Column(
-      children: [
-        Row(
           children: [
-            Expanded(child: Container()),
-            Container(
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: _pickVideoFile,
-                    child: Container(
-                      height: 50,
-                      width: 60,
-                      child: Center(
-                          child: Text(
-                        "Video",
-                        style: TextStyle(color: AppColors.theme['black'], fontSize: 15, fontWeight: FontWeight.bold),
-                      )),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10).copyWith(
-                            topRight: Radius.zero,
-                            bottomRight: Radius.zero,
-                          ),
-                          border: Border.all(
-                            color: Colors.grey,
-                          )),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      TextEditingController pdfController = TextEditingController();
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            backgroundColor: AppColors.theme['offWhite'],
-                            title: Text(
-                              "Upload Course Policy",
-                              style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "Please provide the Google Drive link for the course policy.",
-                                  style: TextStyle(color: AppColors.theme['black'], fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 20),
-                                CustomTextField(
-                                  hintText: "Google Drive Link",
-                                  isNumber: false,
-                                  obsecuretext: false,
-                                  controller: pdfController,
-                                ),
-                              ],
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text(
-                                  "Cancel",
-                                  style: TextStyle(color: Colors.red),
-                                ),
+            Row(
+              children: [
+                Expanded(child: Container()),
+                Container(
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: _pickVideoFile,
+                        child: Container(
+                          height: 50,
+                          width: 60,
+                          child: Center(
+                              child: Text(
+                                "Video",
+                                style: TextStyle(
+                                    color: AppColors.theme['black'],
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10).copyWith(
+                                topRight: Radius.zero,
+                                bottomRight: Radius.zero,
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  String driveLink = pdfController.text;
-                                  if (driveLink.isNotEmpty) {
-                                    // todo:store this is link in material
-                                    // SubjectService().updateCoursePolicy(
-                                    //     widget.sub.id!, driveLink);
-                                    Navigator.of(context).pop();
-                                    HelperFunction.showToast("Notes Uploaded!");
-                                  } else {
-                                    HelperFunction.showToast("Enter valid link");
-                                  }
-                                },
-                                child: const Text(
-                                  "Upload",
-                                  style: TextStyle(color: Colors.blue),
+                              border: Border.all(
+                                color: Colors.grey,
+                              )),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: (){
+                          TextEditingController pdfController =
+                          TextEditingController();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: AppColors.theme['offWhite'],
+                                title: Text(
+                                  "Upload Course Policy",
+                                  style: TextStyle(
+                                      color: AppColors.theme['black'],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
-                              ),
-                            ],
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "Please provide the Google Drive link for the course policy.",
+                                      style: TextStyle(
+                                          color: AppColors.theme['black'],
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 20),
+                                    CustomTextField(
+                                      hintText: "Google Drive Link",
+                                      isNumber: false,
+                                      obsecuretext: false,
+                                      controller: pdfController,
+                                    ),
+                                  ],
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      String driveLink =
+                                          pdfController.text;
+                                      if (driveLink.isNotEmpty) {
+
+                                        // todo:store this is link in material
+                                        // SubjectService().updateCoursePolicy(
+                                        //     widget.sub.id!, driveLink);
+                                        Navigator.of(context).pop();
+                                        HelperFunction.showToast("Notes Uploaded!") ;
+
+                                      } else {
+                                        HelperFunction.showToast(
+                                            "Enter valid link");
+                                      }
+                                    },
+                                    child: Text(
+                                      "Upload",
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 60,
-                      child: Center(
-                          child: Text(
-                        "Pdf",
-                        style: TextStyle(color: AppColors.theme['black'], fontSize: 15, fontWeight: FontWeight.bold),
-                      )),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10).copyWith(
-                            topLeft: Radius.zero,
-                            bottomLeft: Radius.zero,
-                          ),
-                          border: Border.all(
-                            color: Colors.grey,
-                          )),
-                    ),
+                        child: Container(
+                          height: 50,
+                          width: 60,
+                          child: Center(
+                              child: Text(
+                                "Pdf",
+                                style: TextStyle(
+                                    color: AppColors.theme['black'],
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10).copyWith(
+                                topLeft: Radius.zero,
+                                bottomLeft: Radius.zero,
+                              ),
+                              border: Border.all(
+                                color: Colors.grey,
+                              )),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+            if (_videoFile != null) ...[
+              SizedBox(height: 10),
+              Column(
+                children: [
+                  //todo ; store all materail and fetch below
+                  // card ;  LinkCard(text: "Video File", url: "Video",),
+                ],
+              )
+            ]
           ],
-        ),
-
-        Column(
-          children: widget.sub.materials?.map((e) => LinkCard(text: FirebaseStorage.instance.refFromURL(e).name, url: e)).toList() ?? [],
-        )        
-      ],
-    ));
+        ));
   }
 
   Widget _buildTab(String tabTitle) {
@@ -483,15 +508,19 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         updateTab(tabTitle);
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: selectedTab == tabTitle ? AppColors.theme['green'] : AppColors.theme['offWhite'],
+          color: selectedTab == tabTitle
+              ? AppColors.theme['green']
+              : AppColors.theme['offWhite'],
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           tabTitle,
           style: TextStyle(
-            color: selectedTab == tabTitle ? AppColors.theme['white'] : AppColors.theme['black'],
+            color: selectedTab == tabTitle
+                ? AppColors.theme['white']
+                : AppColors.theme['black'],
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
